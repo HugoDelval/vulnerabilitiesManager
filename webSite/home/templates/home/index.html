@@ -1,0 +1,12 @@
+{% extends "home/layout.html" %}
+
+{% block body %}
+    <h2>Liste des Vulnérabilités</h2>
+    {%  if vulnerabilite_list %}
+    <ul>
+    {%  for vuln in vulnerabilite_list %}
+        <li>
+            <a href="/home/{{ vuln.id }}">{{ vuln. }}
+        </li>
+    </ul>
+{% endblock %}
