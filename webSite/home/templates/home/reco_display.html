@@ -1,0 +1,25 @@
+<ul>
+    <li>
+        <h4>Urgence de la recommandation :</h4>
+        <ul>
+            <li>
+                Niveau : {{ recommandation.echeance.niveau }}
+            </li>
+            <li>
+                Description : {{ recommandation.echeance.description }}
+            </li>
+        </ul>
+    </li>
+    <li>
+        <h4>Coût de la recommandation :</h4>
+        <ul>
+            <li>Coût humain : {{ recommandation.cout_reco.cout_homme_mois }} homme.mois</li>
+            <li>Coût initial : {{ recommandation.cout_reco.cout_initial_euros }}€</li>
+            <li>Coût récurrent : {{ recommandation.cout_reco.cout_recurrent_euros }}€</li>
+        </ul>
+    </li>
+    <li>
+        <h4>Explication détaillée pour le client :</h4>
+        {{ recommandation.explication }}
+    </li>
+</ul>

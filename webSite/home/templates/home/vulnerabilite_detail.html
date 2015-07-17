@@ -1,0 +1,21 @@
+{% extends "home/layout.html" %}
+
+<!-- Left Sidebar Menu -->
+{% block base_left_sidebar_menu %}
+    {% include "LTE/menu.html" with active='index' only %}
+{% endblock %}
+
+{% block body %}
+    <a href="{% url 'home:show_me_this_vuln' vulnerabilite.id %}"> <h2>Vulnérabilite {{ vulnerabilite }}</h2></a>
+    {% include "home/vuln_display.html" %}
+
+    <h3>Recommandation(s) associée(s) :</h3>
+    {% if vulnerabilite.recommandation_set.all %}
+        {% for recommandation in vulnerabilite.recommandation_set.all %}
+            {% include "home/reco_display.html" %}
+        {% endfor %}
+    {% else %}
+        Aucune recommandation disponnible pour cette vulnérabilité.
+        <a href="{% url 'admin:home_recommandation_add' %}">Ajoutez-en !</a>
+    {% endif %}
+{% endblock %}

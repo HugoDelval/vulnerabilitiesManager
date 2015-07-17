@@ -1,9 +1,32 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-# from django.shortcuts import
 
 
-# Create your models here.
+def iterativeIsEnfant(activiteMontante, autreActiviteAudit):
+    if activiteMontante is None:
+        return False
+    else:
+        if activiteMontante == autreActiviteAudit:
+            return True
+        else:
+            return iterativeIsEnfant(activiteMontante.activiteParente, autreActiviteAudit)
+
+
+class ActiviteAudit(models.Model):
+    # activité parente, peut être nulle si on est à la "racine"
+    activiteParente = models.ForeignKey('self', related_name='activiteEnfante', null=True, blank=True) # l'objet courant correspond à l'enfant du parent : activiteEnfante de activiteParente
+    # description de l'activité, ex : test d'intrusion
+    nom_activite = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.nom_activite
+
+    def isEnfant(self, autreActiviteAudit):
+        if autreActiviteAudit is None:
+            return True
+        return iterativeIsEnfant(self, autreActiviteAudit)
+
+
 class ImpactVuln(models.Model):
     # ex : 4
     niveau = models.IntegerField()
@@ -23,7 +46,7 @@ class DifficulteExploitVuln(models.Model):
     description_acte_involontaire = models.TextField()
 
     def __unicode__(self):
-        return "difficultée = "+str(self.niveau)
+        return "difficultee = "+str(self.niveau)
 
 
 class Rapport(models.Model):
@@ -38,6 +61,14 @@ class Rapport(models.Model):
         return self.nom_rapport
 
 
+class MotClef(models.Model):
+    # ex : XSS, Cross-Site-Scriptiong, SQLi...
+    nom = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.nom
+
+
 class Vulnerabilite(models.Model):
     # l'impact de la vuln
     impact = models.ForeignKey(ImpactVuln)
@@ -45,23 +76,17 @@ class Vulnerabilite(models.Model):
     difficulte_exploit = models.ForeignKey(DifficulteExploitVuln)
     # un rapport ou la vuln a ete identifiee et expliquee
     rapport_associe = models.OneToOneField(Rapport)
+    # tous les mot-clefs associés à cette vuln
+    mots_clefs = models.ManyToManyField(MotClef)
+    # toutes les activités d'audit, les plus précises possibles, qui sont liées à la vuln
+    activites_liees = models.ManyToManyField(ActiviteAudit)
     # explication de la vulnerabilite pour le client (ou qqun qui ne la connait pas)
     description = models.TextField()
     # la vuln est-elle consideree en boite noire ? True/False
     estBoiteNoire = models.BooleanField()
 
     def __unicode__(self):
-        return self.description[:30]+"..."
-
-
-class MotClef(models.Model):
-    # ex : XSS, Cross-Site-Scriptiong, SQLi...
-    nom = models.CharField(max_length=255)
-    # la vuln correspondant a ce mot clef (plusieurs mots clefs peuvent referer a la meme vuln : XSS et CrossSiteScripting par exemple)
-    vuln = models.ForeignKey(Vulnerabilite)
-
-    def __unicode__(self):
-        return self.nom
+        return self.description[:50]+"..."
 
 
 class EcheanceReco(models.Model):
@@ -101,14 +126,5 @@ class Recommandation(models.Model):
     explication = models.TextField()
 
     def __unicode__(self):
-        return self.explication[:30]+"..."
+        return self.explication[:50]+"..."
 
-
-class ActiviteAudit(models.Model):
-    # activité parente, peut être nulle si on est à la "racine"
-    activiteParente = models.ForeignKey('self', related_name='activiteEnfante', null=True, blank=True) # l'objet courant correspond à l'enfant du parent : activiteEnfante de activiteParente
-    # description de l'activité, ex : test d'intrusion
-    nom_activite = models.CharField(max_length=255)
-
-    def __unicode__(self):
-        return self.nom_activite

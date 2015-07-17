@@ -1,0 +1,19 @@
+{% extends "home/layout.html" %}
+
+<!-- Left Sidebar Menu -->
+{% block base_left_sidebar_menu %}
+    {% include "LTE/menu.html" with active='recos' only %}
+{% endblock %}
+
+{% block body %}
+    <a href="{% url 'home:show_me_this_reco' recommandation.id %}"> <h2>Recommandation {{ recommandation }}</h2></a>
+    {% include "home/reco_display.html" %}
+
+    <h3>Vulnérabilité associée :</h3>
+    {% if recommandation.vuln %}
+        {% include "home/vuln_display.html" with vulnerabilite=recommandation.vuln %}
+    {% else %}
+        Aucune vulnérabilité associée à cette recommandation.
+        <a href="{% url 'admin:home_recommandation_change' recommandation.id %}">Ajoutez-en !</a>
+    {% endif %}
+{% endblock %}
