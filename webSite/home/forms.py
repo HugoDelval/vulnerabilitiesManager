@@ -9,28 +9,59 @@ class SearchVulnForm(forms.Form):
     #     'mot_clef_vide': "Vous n'avez pas renseigné de mot-clef.",
     # }
 
+    dernier_index = 0
+    index_modifie = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     mot_clef = forms.CharField(label="Mot Clef", required=False)
     recherche_dans_la_description_de_la_vuln = forms.CharField(required=False)
-    activites_liees = forms.ModelChoiceField(label="Activité d'audit correspondante", queryset=ActiviteAudit.objects.all(), required=False)
+    # activites_liees = forms.ModelChoiceField(label="Activité d'audit correspondante", queryset=ActiviteAudit.objects.all(), required=False)
 
     def __init__(self, *args, **kwargs):
+        activite_parente = kwargs.pop('activite_parente', None)
         super(SearchVulnForm, self).__init__(*args, **kwargs)
-        self.fields['mot_clef'].widget.attrs\
+        self.fields['mot_clef'].widget.attrs \
             .update({
                 'placeholder': "ex : XSS",
                 'class': 'form-control',
                 'autofocus': 'true',
             })
-        self.fields['activites_liees'].widget.attrs\
-            .update({
-                'placeholder': "Activité d'audit correspondante à la vulnérabilité",
-                'class': 'form-control',
-            })
-        self.fields['recherche_dans_la_description_de_la_vuln'].widget.attrs\
+        self.fields['recherche_dans_la_description_de_la_vuln'].widget.attrs \
             .update({
                 'placeholder': "ex : filtrage des données utilisateur",
                 'class': 'form-control',
             })
+        # self.fields['activites_liees'].widget.attrs\
+        #     .update({
+        #         'placeholder': "Activité d'audit correspondante à la vulnérabilité",
+        #         'class': 'form-control',
+        #     })
+        list_activites = []
+        while activite_parente is not None:
+            list_activites.append(activite_parente)
+            activite_parente = activite_parente.activiteParente
+        self.fields['activites_liees_0'] = \
+            forms.ModelChoiceField(label="Activité d'audit correspondante",
+                                   queryset=ActiviteAudit.objects.filter(activiteParente=None),
+                                   required=False)
+        self.fields['activites_liees_0'].widget.attrs \
+            .update({
+                'placeholder': "Activité d'audit correspondante à la vulnérabilité",
+                'class': 'form-control',
+            })
+        if len(list_activites) != 0:
+            for index, act in enumerate(reversed(list_activites)):
+                query = ActiviteAudit.objects.filter(activiteParente=act)
+                if query:
+                    self.fields['activites_liees_{index}'.format(index=index+1)] = \
+                        forms.ModelChoiceField(label="Activité d'audit correspondante",
+                                               queryset=query,
+                                               required=False)
+                    self.fields['activites_liees_{index}'.format(index=index+1)].widget.attrs \
+                        .update({
+                            'placeholder': "Activité d'audit correspondante à la vulnérabilité",
+                            'class': 'form-control',
+                    })
+                    self.dernier_index = index+1
+
 
     # def clean_mot_clef(self):
     #     mot_c = self.cleaned_data.get('mot_clef')
@@ -41,21 +72,14 @@ class SearchVulnForm(forms.Form):
     #         )
     #     return mot_c
 
-    def updateActivites(self, activite_parente = None):
-        if activite_parente is None:
-            self.fields['activites_liees'].queryset = ActiviteAudit.objects.filter(activiteParente=activite_parente)
-        else:
-            self.fields['activites_liees'].queryset = ActiviteAudit.objects.filter(Q(activiteParente=activite_parente) | Q(pk=activite_parente.id) )
-
 
 class SearchRecoForm(forms.Form):
-
     recherche_dans_explication_reco = forms.CharField(label='Recherche dans l\'explication de la reco', required=False)
 
     def __init__(self, *args, **kwargs):
         super(SearchRecoForm, self).__init__(*args, **kwargs)
-        self.fields['recherche_dans_explication_reco'].widget.attrs\
+        self.fields['recherche_dans_explication_reco'].widget.attrs \
             .update({
-                'placeholder': "ex : pour le php utilisez htmlentities",
-                'class': 'form-control',
-            })
+            'placeholder': "ex : pour le php utilisez htmlentities",
+            'class': 'form-control',
+        })

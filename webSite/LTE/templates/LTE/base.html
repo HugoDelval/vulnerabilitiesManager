@@ -68,10 +68,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Header Navbar -->
         <nav class="navbar navbar-static-top" role="navigation">
-          <!-- Sidebar toggle button
-          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+          <!-- Sidebar toggle button -->
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button" style="margin-left: -50px;" onclick="if($(this).css('margin-left')=='-50px'){$(this).css('margin-left', '0');}else{$(this).css('margin-left', '-50px');}">
             <span class="sr-only">Toggle navigation</span>
-          </a> -->
+          </a>
           <!-- Navbar Right Menu -->
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
@@ -173,17 +173,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- User Account Menu -->
               {% endblock %}
               {% block base_top_navbar_control_button %}
-              <!-- Control Sidebar Toggle Button -->
-              <li>
+              <!-- Control Sidebar Toggle Button -->{% comment %}
+               <li>
                 <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-              </li>
+              </li> 
+          {% endcomment %}
               {% endblock %}
             </ul>
           </div>
         </nav>
       </header>
       <!-- Left side column. contains the logo and sidebar -->
-      <aside class="main-sidebar" >
+      <aside class="main-sidebar" style="width: 180px;">
 
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
@@ -209,7 +210,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </aside>
 
       <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
+      <div class="content-wrapper" style="margin-left: 180px;">
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>

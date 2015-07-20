@@ -1,5 +1,6 @@
 <div id="ajax_writtable">
 
+    {% load my_filters %}
     {% if error_message %}
     <p><strong>{{ error_message }}</strong></p>
     {% endif %}
@@ -25,12 +26,21 @@
                     {% endfor %}
                 </div>
 
-                <div class="form-group {% if form.activites_liees.errors %}has-error{% endif %}">
-                    {{ form.activites_liees.label_tag }} {{ form.activites_liees }}
-                    {% for error in form.activites_liees.errors %}
+                {% for index_activite in form.dernier_index|times %}
+                    {% with variable_activite='activites_liees_'|addstr:index_activite %}
+                    {% with activite_liee=form|keyvalue:variable_activite %}
+                <div class="form-group {% if activite_liee.errors %}has-error{% endif %}">
+                    {{ activite_liee.label_tag }} {{ activite_liee }}
+                    {% for error in activite_liee.errors %}
                     <p class="text-red">{{ error }}</p>
                     {% endfor %}
                 </div>
+                    {% endwith %}
+                    {% endwith %}
+                {% endfor %}
+
+
+                {{ form.index_modifie }}
 
                 <div class="col-xs-4 col-xs-offset-4">
                     <button type="submit" class="btn btn-primary btn-block btn-flat">Search for Vulns!</button>

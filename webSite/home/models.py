@@ -49,6 +49,14 @@ class DifficulteExploitVuln(models.Model):
         return "difficultee = "+str(self.niveau)
 
 
+class MotClef(models.Model):
+    # ex : XSS, Cross-Site-Scriptiong, SQLi...
+    nom = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.nom
+
+
 class Rapport(models.Model):
     # ex : RAN-01-1995
     nom_rapport = models.CharField(max_length=255)
@@ -61,21 +69,13 @@ class Rapport(models.Model):
         return self.nom_rapport
 
 
-class MotClef(models.Model):
-    # ex : XSS, Cross-Site-Scriptiong, SQLi...
-    nom = models.CharField(max_length=255)
-
-    def __unicode__(self):
-        return self.nom
-
-
 class Vulnerabilite(models.Model):
     # l'impact de la vuln
     impact = models.ForeignKey(ImpactVuln)
     # difficulte d'exploit de la vuln
     difficulte_exploit = models.ForeignKey(DifficulteExploitVuln)
-    # un rapport ou la vuln a ete identifiee et expliquee
-    rapport_associe = models.OneToOneField(Rapport)
+    # les rapports où on a trouvé la vuln
+    rapports_ou_on_a_trouve_la_vuln = models.ManyToManyField(Rapport)
     # tous les mot-clefs associés à cette vuln
     mots_clefs = models.ManyToManyField(MotClef)
     # toutes les activités d'audit, les plus précises possibles, qui sont liées à la vuln
@@ -105,11 +105,11 @@ class DifficulteReco(models.Model):
     # description correspondante au niveau, ex : tres facile
     description = models.CharField(max_length=255)
     # cout humain par mois, ex : 1h.m
-    cout_homme_mois = models.FloatField()
+    cout_homme_mois = models.FloatField(default=0)
     # cout depart en euros
-    cout_initial_euros = models.FloatField()
+    cout_initial_euros = models.FloatField(default=0)
     # cout iteratif en euros
-    cout_recurrent_euros = models.FloatField()
+    cout_recurrent_euros = models.FloatField(default=0)
 
     def __unicode__(self):
         return self.description

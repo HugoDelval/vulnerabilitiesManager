@@ -1,3 +1,5 @@
+var index_modifie = 0;
+
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
@@ -21,8 +23,10 @@ function csrfSafeMethod(method) {
 
 function setupListeners() {
 
-    $('#id_activites_liees').on('change keyup', function(){
-        ajaxForm('#id_activites_liees');
+    $('select[id^="id_activites_liees_"]').on('change keyup', function(){
+        index_modifie = $(this).attr('id').split('liees_')[1];
+        $('#id_index_modifie').val(index_modifie);
+        ajaxForm('#'+$(this).attr('id'));
     });
 
     $('#formulaire_recherche_vuln').on('submit', function(e){
@@ -51,7 +55,7 @@ function ajaxForm(elementToFocusSelector){
             $('#ajax_writtable').html(html);
             setupListeners();
         },
-        error : function(resultat, statut, erreur){
+        error: function(resultat, statut, erreur){
             $('#ajax_writtable').html("Désolé ! Une erreur serveur est survenue, veuillez réessayer.");
         }
     });

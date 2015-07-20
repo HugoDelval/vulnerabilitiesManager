@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'home',
     'LTE',
+    'django_extensions',
 )
 
 MIDDLEWARE_CLASSES = (

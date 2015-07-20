@@ -8,13 +8,17 @@ from .models import *
 class RecommandationInline(admin.StackedInline):
     model = Recommandation
     extra = 1
+#
+#
+# class RapportInline(admin.StackedInline):
+#     model = Rapport
 
 
-# on permet à l'admin d'ajouter dynamiquement des recommandations lorsqu'il créé sa vuln
+# on permet à l'admin d'ajouter dynamiquement des recommandations et des rapports lorsqu'il créé sa vuln
 class VulnerabiliteAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Echelle de sévérité', {'fields': ['impact', 'difficulte_exploit', 'estBoiteNoire']}),
-        ('Pour retrouver la vuln facilement..', {'fields': ['rapport_associe', 'mots_clefs', 'activites_liees']}),
+        ('Pour retrouver la vuln facilement..', {'fields': ['rapports_ou_on_a_trouve_la_vuln', 'mots_clefs', 'activites_liees']}),
         ('Une bonne description de la vuln pour le client', {'fields': ['description']})
     ]
     inlines = [RecommandationInline]
