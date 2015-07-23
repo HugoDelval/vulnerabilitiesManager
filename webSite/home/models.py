@@ -32,6 +32,8 @@ class ImpactVuln(models.Model):
     niveau = models.IntegerField()
     # ex : Critique
     description = models.CharField(max_length=255)
+    # ex : dizaine ou centaine d’euros annuels... blablablaba
+    description_detaillee = models.TextField()
 
     def __unicode__(self):
         return self.description
@@ -40,6 +42,8 @@ class ImpactVuln(models.Model):
 class DifficulteExploitVuln(models.Model):
     # ex : 4
     niveau = models.IntegerField()
+    # ex : difficile
+    description_niveau = models.CharField(max_length=255)
     # ex : tres difficile a exploiter, couts eleves etc..
     description_acte_volontaire = models.TextField()
     # ex: tres rarement voire jamais mis en evidence involontairement
@@ -51,7 +55,7 @@ class DifficulteExploitVuln(models.Model):
 
 class MotClef(models.Model):
     # ex : XSS, Cross-Site-Scriptiong, SQLi...
-    nom = models.CharField(max_length=255)
+    nom = models.CharField(max_length=255, unique=True)
 
     def __unicode__(self):
         return self.nom
@@ -94,6 +98,8 @@ class EcheanceReco(models.Model):
     niveau = models.IntegerField()
     # description correspondante au niveau, ex : extremement urgent
     description = models.CharField(max_length=255)
+    # ex : à faire dans vraiment pas longtemps, voire dans.. blabla
+    description_detaillee = models.TextField()
 
     def __unicode__(self):
         return self.description
@@ -110,6 +116,8 @@ class DifficulteReco(models.Model):
     cout_initial_euros = models.FloatField(default=0)
     # cout iteratif en euros
     cout_recurrent_euros = models.FloatField(default=0)
+    # ex : cette recommandation nécessite blablabliblu
+    description_detaillee = models.TextField()
 
     def __unicode__(self):
         return self.description

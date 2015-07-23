@@ -46,79 +46,79 @@ admin.site.register(Recommandation, RecommandationAdmin)
 ############################################################
 
 
-class ImpactVulnAdmin(admin.ModelAdmin):
-    def get_model_perms(self, request):
-        """
-        Return empty perms dict thus hiding the model from admin index
-        """
-        return {}
+# class ImpactVulnAdmin(admin.ModelAdmin):
+#     def get_model_perms(self, request):
+#         """
+#         Return empty perms dict thus hiding the model from admin index
+#         """
+#         return {}
+#
+# admin.site.register(ImpactVuln, ImpactVulnAdmin)
+#
+#
+# class DifficulteExploitVulnAdmin(admin.ModelAdmin):
+#     def get_model_perms(self, request):
+#         """
+#         Return empty perms dict thus hiding the model from admin index
+#         """
+#         return {}
+#
+# admin.site.register(DifficulteExploitVuln, DifficulteExploitVulnAdmin)
+#
+#
+# class RapportAdmin(admin.ModelAdmin):
+#     def get_model_perms(self, request):
+#         """
+#         Return empty perms dict thus hiding the model from admin index
+#         """
+#         return {}
+#
+# admin.site.register(Rapport, RapportAdmin)
+#
+#
+# class MotClefAdmin(admin.ModelAdmin):
+#     def get_model_perms(self, request):
+#         """
+#         Return empty perms dict thus hiding the model from admin index
+#         """
+#         return {}
+#
+# admin.site.register(MotClef, MotClefAdmin)
+#
+#
+# class EcheanceRecoAdmin(admin.ModelAdmin):
+#     def get_model_perms(self, request):
+#         """
+#         Return empty perms dict thus hiding the model from admin index
+#         """
+#         return {}
+#
+# admin.site.register(EcheanceReco, EcheanceRecoAdmin)
+#
+#
+# class DifficulteRecoAdmin(admin.ModelAdmin):
+#     def get_model_perms(self, request):
+#         """
+#         Return empty perms dict thus hiding the model from admin index
+#         """
+#         return {}
+#
+# admin.site.register(DifficulteReco, DifficulteRecoAdmin)
+#
+#
+# class ActiviteAuditAdmin(admin.ModelAdmin):
+#     def get_model_perms(self, request):
+#         """
+#         Return empty perms dict thus hiding the model from admin index
+#         """
+#         return {}
+#
+# admin.site.register(ActiviteAudit, ActiviteAuditAdmin)
 
-admin.site.register(ImpactVuln, ImpactVulnAdmin)
-
-
-class DifficulteExploitVulnAdmin(admin.ModelAdmin):
-    def get_model_perms(self, request):
-        """
-        Return empty perms dict thus hiding the model from admin index
-        """
-        return {}
-
-admin.site.register(DifficulteExploitVuln, DifficulteExploitVulnAdmin)
-
-
-class RapportAdmin(admin.ModelAdmin):
-    def get_model_perms(self, request):
-        """
-        Return empty perms dict thus hiding the model from admin index
-        """
-        return {}
-
-admin.site.register(Rapport, RapportAdmin)
-
-
-class MotClefAdmin(admin.ModelAdmin):
-    def get_model_perms(self, request):
-        """
-        Return empty perms dict thus hiding the model from admin index
-        """
-        return {}
-
-admin.site.register(MotClef, MotClefAdmin)
-
-
-class EcheanceRecoAdmin(admin.ModelAdmin):
-    def get_model_perms(self, request):
-        """
-        Return empty perms dict thus hiding the model from admin index
-        """
-        return {}
-
-admin.site.register(EcheanceReco, EcheanceRecoAdmin)
-
-
-class DifficulteRecoAdmin(admin.ModelAdmin):
-    def get_model_perms(self, request):
-        """
-        Return empty perms dict thus hiding the model from admin index
-        """
-        return {}
-
-admin.site.register(DifficulteReco, DifficulteRecoAdmin)
-
-
-class ActiviteAuditAdmin(admin.ModelAdmin):
-    def get_model_perms(self, request):
-        """
-        Return empty perms dict thus hiding the model from admin index
-        """
-        return {}
-
-admin.site.register(ActiviteAudit, ActiviteAuditAdmin)
-
-# admin.site.register(ActiviteAudit)
-# admin.site.register(DifficulteReco)
-# admin.site.register(EcheanceReco)
-# admin.site.register(ImpactVuln)
-# admin.site.register(DifficulteExploitVuln)
-# admin.site.register(Rapport)
-# admin.site.register(MotClef)
+admin.site.register(ActiviteAudit)
+admin.site.register(DifficulteReco)
+admin.site.register(EcheanceReco)
+admin.site.register(ImpactVuln)
+admin.site.register(DifficulteExploitVuln)
+admin.site.register(Rapport)
+admin.site.register(MotClef)
