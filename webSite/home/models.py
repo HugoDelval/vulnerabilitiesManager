@@ -69,6 +69,9 @@ class Rapport(models.Model):
     # ex : ecrit par Sebastien Herniotte et relu par Thomas Valez
     auditeurs_impliques = models.TextField() # va peut-etre changer si l'on gere les utilisateurs
 
+    class Meta:
+        ordering = ['nom_rapport']
+
     def __unicode__(self):
         return self.nom_rapport
 

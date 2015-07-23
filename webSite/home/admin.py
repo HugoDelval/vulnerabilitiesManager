@@ -8,6 +8,8 @@ from .models import *
 class RecommandationInline(admin.StackedInline):
     model = Recommandation
     extra = 1
+    classes = ('collapse open',)
+    inline_classes = ('collapse open',)
 #
 #
 # class RapportInline(admin.StackedInline):
