@@ -1,6 +1,6 @@
 {# Variable a fournir : [prev1Name prev1Url [prev2Name prev2Url [...]]] current #}
 {# On ne peut creer de liste ou de dictionnaire dans le template, on utilise donc des variables non obligatoire #}
-<li><a href="{% url 'home:index' %}"><i class="fa fa-dashboard"></i> <b>KM</b>Amossys</a></li>
+<li><a href="{% url 'vuln:index' %}"><i class="fa fa-dashboard"></i> <b>KM</b>Amossys</a></li>
 
 {% if prev1Name and prev1Url%}
     <li><a href="{% url prev1Url %} ">{{ prev1Name }}</a></li>

@@ -2,6 +2,6 @@
   <ul class="sidebar-menu">
     <li class="header">Rechercher par :</li>
     <!-- Optionally, you can add icons to the links -->
-    <li {% ifequal active "index" %}class="active" {% endifequal %}><a href="{% url 'home:index' %}"><i class='fa fa-warning'></i> <span>Vulnérabilités</span></a></li>
-    <li {% ifequal active "recos" %}class="active" {% endifequal %}><a href="{% url 'home:recos' %}"><i class='fa fa-check-square'></i> <span>Recommandations</span></a></li>
+    <li {% ifequal active "index" %}class="active" {% endifequal %}><a href="{% url 'vuln:index' %}"><i class='fa fa-warning'></i> <span>Vulnérabilités</span></a></li>
+    <li {% ifequal active "recos" %}class="active" {% endifequal %}><a href="{% url 'vuln:recos' %}"><i class='fa fa-check-square'></i> <span>Recommandations</span></a></li>
   </ul><!-- /.sidebar-menu -->

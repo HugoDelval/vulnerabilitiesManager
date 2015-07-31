@@ -19,7 +19,7 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls')),
-    url(r'^home/', include('home.urls', namespace='home')),
+    url(r'^vuln/', include('vuln.urls', namespace='vuln')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', RedirectView.as_view(pattern_name='home:index', permanent=True)),
+    url(r'^$', RedirectView.as_view(pattern_name='vuln:index', permanent=True)),
 ]

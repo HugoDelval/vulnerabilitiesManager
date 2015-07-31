@@ -39,7 +39,7 @@
                   + "</a>");
 
   //Add the tab button to the right sidebar tabs
-  $("[href='#control-sidebar-home-tab']")
+  $("[href='#control-sidebar-vuln-tab']")
           .parent()
           .before(tab_button);
 
@@ -206,7 +206,7 @@
   demo_settings.append(skins_list);
 
   tab_pane.append(demo_settings);
-  $("#control-sidebar-home-tab").after(tab_pane);
+  $("#control-sidebar-vuln-tab").after(tab_pane);
 
   setup();
 

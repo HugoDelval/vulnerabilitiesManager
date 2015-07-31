@@ -338,7 +338,7 @@
 
                 // ignore navigational & special keys
                 case 35: // end
-                case 36: // home
+                case 36: // vuln
                 case 16: // shift
                 case 17: // ctrl
                 case 18: // alt

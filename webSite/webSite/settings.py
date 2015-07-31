@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'home',
+    'vuln',
     'LTE',
     'django_extensions',
 )
@@ -105,10 +105,28 @@ GRAPPELLI_ADMIN_TITLE = 'KMAmossys'
 LOGIN_URL = '/user/login/'
 
 
+########################
+## LDAP configuration ##
+########################
 
-# AUTHENTICATION_BACKENDS = (
-#     'django_auth_ldap.backend.LDAPBackend',
-#     'django.contrib.auth.backends.ModelBackend',
-# )
-# AUTH_LDAP_SERVER_URI = "ldap://ldap.amossys.fr"
+AUTHENTICATION_BACKENDS = (
+#    'django_auth_ldap.backend.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+AUTH_LDAP_SERVER_URI = "ldap://ldap.amossys.fr"
 
+import ldap
+from django_auth_ldap.config import LDAPSearch
+
+AUTH_LDAP_BIND_DN = "" # ex : "cn=django-agent,dc=example,dc=com"
+AUTH_LDAP_BIND_PASSWORD = ""
+AUTH_LDAP_USER_SEARCH = LDAPSearch("ou=users,dc=example,dc=com", ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
+# or perhaps:
+# AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=users,dc=example,dc=com"
+
+
+# chiffrer les communications
+AUTH_LDAP_START_TLS = True
+
+# fait correspondre les champs du ldap avec les champs du User local
+# AUTH_LDAP_USER_ATTR_MAP = {"first_name": "givenName", "last_name": "sn"}
