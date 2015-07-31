@@ -34,7 +34,7 @@ Puis lancez le server :
 
 ouvrez un navigateur et allez à localhost:8081 ou localhost:8081/admin pour l'interface admin
 
-### Générer une image de votre modèle de données
+#### Générer une image de votre modèle de données
 
 	sudo pip install pyparsing==1.5.7
 	sudo pip install pydot
