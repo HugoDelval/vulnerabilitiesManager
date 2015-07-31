@@ -54,7 +54,10 @@ Pour vous aider a créer un nouvelle application (*monApp*) sur le site voici qu
 * *Pour les* **modèles** *:*  
  * Vous pouvez établir des relations avec les utilisateurs en définissant une clé étrangère sur la classe `User`, importés comme ceci : `from django.contrib.auth.models import User`  
  * Pour établir cette relation penser à nommer la relation inverse c'est plus pratique, comme ceci : `Class Vuln(models.Model):` puis `user = models.ForeignKey(User, related_name='mes_vulns')`  
-  
+ * Après avoir créé vos modèles (inspirez vous de vuln/models.py) vous devez lancez ces commandes pour syncroniser la bdd :
+	python manage.py makemigrations # importe les changements dans un cache qui peut être versionné (par git entre autre)
+	python manage.py migrate        # prend en compte les changements précédemment importés et les insère dans la bdd (mysql ici) 
+ 
 * *Pour les* **vues** *(contrôleurs)* :  
   * Penser à ajouter le décorateur `@login_required` au dessus de vos actions, les utilisateurs déconnectés seront directement redirigés vers la page de connexion (pas encore développé avec le ldap d'Amossys)  
   * Ajouter une route vers votre action et nommez la dans **monApp/urls.py** (créez le fichier si besoin) comme ceci : `urlpatterns = [ url(r'^', views.index, name='index'),]`  
