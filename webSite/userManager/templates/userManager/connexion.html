@@ -1,0 +1,97 @@
+{% extends "LTE/login.html" %}
+{% load staticfiles %}
+
+<!--
+----    HEAD
+---->
+<!-- page head title -->
+{% block login_title %}Connexion | KMAmossys{% endblock %}
+
+<!-- here add you own stylesheet -->
+{% block login_additional_stylesheet %}{% endblock %}
+
+<!-- here add you own scripts -->
+{% block login_additional_scripts %}{% endblock %}
+
+<!--
+----    LOGIN BLOCK
+---->
+<!-- logo or text above the block -->
+{%  block login_logo %}
+    <a href="{% url 'vuln:index' %}"><b>KM</b>Amossys</a>
+{% endblock %}
+
+<!-- text above the form -->
+{% block login_box_msg %}
+    <p class="login-box-msg">Connectez vous ici</p>
+    {% if error %}
+        {% ifequal error_type "inactive" %}
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-ban"></i> Erreur de connexion !</h4>
+            Votre compte est <b>inactif</b>, veuillez contacter un administrateur
+        </div>
+        {% else %}
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-ban"></i> Erreur de connexion !</h4>
+            La combinaison identifiant / mot de passe est incorrecte
+        </div>
+        {% endifequal %}
+    {% endif %}
+{%  endblock %}
+
+<!-- the url which shall receive the form -->
+{% block login_form_action %}{% url 'userManager:connexion' %}{% endblock %}
+
+<!-- fields inside the form -->
+{% block login_form_fields %}
+    <div class="form-group has-feedback {% if form.username.errors %}has-error{% endif %}">
+        {{ form.username.label_tag }} {{ form.username }}
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+        {% for error in form.username.errors %}
+        <p class="text-red">{{ error }}</p>
+        {% endfor %}
+    </div>
+    <div class="form-group has-feedback {% if form.password.errors %}has-error{% endif %}">
+        {{ form.password.label_tag }} {{ form.password }}
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        {% for error in form.password.errors %}
+        <p class="text-red">{{ error }}</p>
+        {% endfor %}
+    </div>
+    {% csrf_token %}
+{% endblock %}
+
+<!-- remember me checkbox (same row as submit, check the 12cols rules)-->
+{%  block login_form_remember_me %}
+    <!--<div class="col-xs-7">
+      <div class="checkbox icheck">
+        <label>
+          <input type="checkbox"> Remember Me
+        </label>
+      </div>
+    </div>--><!-- /.col -->
+{% endblock %}
+
+<!-- submit button from login form -->
+{% block login_form_submit %}
+    <div class="col-xs-12">
+      <button type="submit" class="btn btn-primary btn-block btn-flat">Se Connecter</button>
+    </div><!-- /.col -->
+{% endblock %}
+
+<!-- links for social authentification -->
+{% block login_social_auth %}
+{#    delete this for me :) ! #}
+{% endblock %}
+
+<!-- links for forgotten password -->
+{% block login_password_forgotten_link %}
+{#<a href="#">J'ai oublié mon mot de passe ...</a><br>#}
+{% endblock %}
+
+<!-- links for registering -->
+{% block login_register_link %}
+<a href="{% url 'userManager:inscription' %}" class="text-center">S'inscrire !</a>
+{% endblock %}

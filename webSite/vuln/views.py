@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.http import  HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
-from django.db.models import Q
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.debug import sensitive_post_parameters
 
 from .forms import SearchVulnForm, SearchRecoForm
 from .models import Vulnerabilite, Recommandation, ActiviteAudit
@@ -13,12 +15,27 @@ class VulnDetailView(generic.DetailView):
     model = Vulnerabilite
     # template_name = 'vuln/vulnerabilite_detail.html'
 
+    @csrf_protect
+    @never_cache
+    @login_required
+    def dispatch(self, *args, **kwargs):
+        return super(VulnDetailView, self).dispatch(*args, **kwargs)
+
 
 class RecoDetailView(generic.DetailView):
     model = Recommandation
     # template_name = 'vuln/recommandation_detail.html'
 
+    @csrf_protect
+    @never_cache
+    @login_required
+    def dispatch(self, *args, **kwargs):
+        return super(RecoDetailView, self).dispatch(*args, **kwargs)
 
+
+@csrf_protect
+@never_cache
+@login_required
 def displayVuln(request):
     vulnerabilite_list = Vulnerabilite.objects.all()
     form = SearchVulnForm()
@@ -33,6 +50,10 @@ def cast(chaine):
         return -1
 
 
+@sensitive_post_parameters()
+@csrf_protect
+@never_cache
+@login_required
 def searchVuln(request):
     if request.method == "POST":
         activite_parente = None
@@ -61,12 +82,19 @@ def searchVuln(request):
         return redirect(reverse('vuln:index'))
 
 
+@csrf_protect
+@never_cache
+@login_required
 def displayReco(request):
     recommandation_list = Recommandation.objects.all()
     form = SearchRecoForm()
     return render(request, 'vuln/recommandation_list.html', locals())
 
 
+@sensitive_post_parameters()
+@csrf_protect
+@never_cache
+@login_required
 def searchReco(request):
     if request.method == "POST":
         form = SearchRecoForm(request.POST)
