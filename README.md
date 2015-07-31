@@ -54,7 +54,7 @@ Pour vous aider a créer un nouvelle application (*monApp*) sur le site voici qu
 * *Pour les* **modèles** *:*  
  * Vous pouvez établir des relations avec les utilisateurs en définissant une clé étrangère sur la classe `User`, importés comme ceci : `from django.contrib.auth.models import User`  
  * Pour établir cette relation penser à nommer la relation inverse c'est plus pratique, comme ceci : `Class Vuln(models.Model):` puis `user = models.ForeignKey(User, related_name='mes_vulns')`  
- * Après avoir créé vos modèles (inspirez vous de vuln/models.py) vous devez lancez ces commandes pour synchroniser la bdd :
+ * Après avoir créé vos modèles (inspirez vous de **vuln/models.py**) vous devez lancez ces commandes pour synchroniser la bdd :
 
 	> python manage.py makemigrations # importe les changements dans un cache qui peut être versionné (par git entre autre)
 
