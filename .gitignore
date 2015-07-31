@@ -3,3 +3,4 @@ webSite/__pycache__
 webSite/.DS_Store
 webSite/*/databases.py
 webSite/uploads/*
+webSite/*/*.pyc
