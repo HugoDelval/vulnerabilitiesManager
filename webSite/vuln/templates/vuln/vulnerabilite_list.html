@@ -10,6 +10,11 @@
     {% include 'vuln/vulnerabilite_list_body.html' %}
 {% endblock %}
 
+{% block base_content_header_breadcrumb %}
+    {% include 'LTE/breadcrumb.html' with current='vulns-all' only %}
+{% endblock %}
+
+
 {% block base_footer_addons %}
     <script src="{% static 'home/ajaxVulnForm.js' %}" type="text/javascript"></script>
 {% endblock %}

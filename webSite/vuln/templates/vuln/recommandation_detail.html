@@ -5,6 +5,10 @@
     {% include "LTE/menu.html" with active='recos' only %}
 {% endblock %}
 
+{% block base_content_header_breadcrumb %}
+    {% include 'LTE/breadcrumb.html' with current='reco-detail' prev1Name='vulns-all' prev1Url='vuln:index' prev2Name='recos' prev2Url='vuln:recos' only %}
+{% endblock %}
+
 {% block body %}
     <a href="{% url 'vuln:show_me_this_reco' recommandation.id %}"> <h2>Recommandation {{ recommandation }}</h2></a>
     {% include "vuln/reco_display.html" %}

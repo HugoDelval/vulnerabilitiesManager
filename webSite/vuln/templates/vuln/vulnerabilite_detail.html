@@ -5,6 +5,10 @@
     {% include "LTE/menu.html" with active='index' only %}
 {% endblock %}
 
+{% block base_content_header_breadcrumb %}
+    {% include 'LTE/breadcrumb.html' with current='vuln-detail' prev1Name='vulns' prev1Url='vuln:index' only %}
+{% endblock %}
+
 {% block body %}
     <a href="{% url 'vuln:show_me_this_vuln' vulnerabilite.id %}"> <h2>Vulnérabilite {{ vulnerabilite }}</h2></a>
     {% include "vuln/vuln_display.html" %}

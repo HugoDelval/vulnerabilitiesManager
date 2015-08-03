@@ -1,9 +1,9 @@
 {% extends "LTE/base.html" %}
 {% load staticfiles %}
 
+{% block body_skin_class %}skin-green{%  endblock %}
 <!-- page head title -->
-{% block base_title %}vuln | {{ block.super }}{% endblock %}
-
+{% block base_title %}Anonymiser | {{ block.super }}{% endblock %}
 
 <!-- here add you own stylesheet and scripts in header -->
 {% block base_header_addons %}
@@ -20,24 +20,24 @@
 {% endblock %}
 
 
-
-
-
-
+<!-- Left Sidebar Menu -->
+{% block base_left_sidebar_menu %}
+    {% include "LTE/menu.html" with active="anonymiser" only %}
+{% endblock %}
 
 
 <!--
 ----    PAGE CONTENT HEADER
 ---->
 <!-- Page content header title -->
-{% block base_content_header_title %}Accueil | {{ block.super }}{% endblock %}
+{% block base_content_header_title %}{{ block.super }}{% endblock %}
 
 <!-- Page content header optional description -->
 {% block base_content_header_title_description %}{{ block.super }}{% endblock %}
 
 <!-- Page content breadcrumb (fil d'arianne) -->
 {% block base_content_header_breadcrumb %}
-    {% include 'LTE/breadcrumb.html' with current='vuln' only %}
+    {% include 'LTE/breadcrumb.html' with current='anonymiser' only %}
 {% endblock %}
 
 

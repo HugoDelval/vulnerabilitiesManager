@@ -15,8 +15,6 @@ class VulnDetailView(generic.DetailView):
     model = Vulnerabilite
     # template_name = 'vuln/vulnerabilite_detail.html'
 
-    @csrf_protect
-    @never_cache
     @login_required
     def dispatch(self, *args, **kwargs):
         return super(VulnDetailView, self).dispatch(*args, **kwargs)
@@ -26,15 +24,11 @@ class RecoDetailView(generic.DetailView):
     model = Recommandation
     # template_name = 'vuln/recommandation_detail.html'
 
-    @csrf_protect
-    @never_cache
     @login_required
     def dispatch(self, *args, **kwargs):
         return super(RecoDetailView, self).dispatch(*args, **kwargs)
 
 
-@csrf_protect
-@never_cache
 @login_required
 def displayVuln(request):
     vulnerabilite_list = Vulnerabilite.objects.all()
@@ -52,7 +46,6 @@ def cast(chaine):
 
 @sensitive_post_parameters()
 @csrf_protect
-@never_cache
 @login_required
 def searchVuln(request):
     if request.method == "POST":
@@ -82,8 +75,6 @@ def searchVuln(request):
         return redirect(reverse('vuln:index'))
 
 
-@csrf_protect
-@never_cache
 @login_required
 def displayReco(request):
     recommandation_list = Recommandation.objects.all()
@@ -93,7 +84,6 @@ def displayReco(request):
 
 @sensitive_post_parameters()
 @csrf_protect
-@never_cache
 @login_required
 def searchReco(request):
     if request.method == "POST":

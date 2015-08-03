@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^user/', include('userManager.urls', namespace='userManager')),
     url(r'^vuln/', include('vuln.urls', namespace='vuln')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^anonymiser/', include('docxImgAnonymisateur.urls', namespace='anonymiser')),
     url(r'^$', RedirectView.as_view(pattern_name='vuln:index', permanent=True)),
 ]

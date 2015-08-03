@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'userManager',
     'vuln',
+    'docxImgAnonymisateur',
     'LTE',
     'django_extensions',
 )
@@ -112,7 +113,7 @@ LOGIN_URL = '/user/login/'
 
 AUTHENTICATION_BACKENDS = (
     'django_auth_ldap.backend.LDAPBackend',
-    #'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 #AUTH_LDAP_SERVER_URI = "ldap://ldap.amossys.fr"
 AUTH_LDAP_SERVER_URI = "ldap://127.0.0.1"
