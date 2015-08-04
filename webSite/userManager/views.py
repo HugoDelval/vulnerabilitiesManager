@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
-from .forms import ConnexionForm, InscriptionForm
+from .forms import ConnexionForm
 
 
 @sensitive_post_parameters()
