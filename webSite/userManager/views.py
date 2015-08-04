@@ -10,40 +10,6 @@ from django.views.decorators.debug import sensitive_post_parameters
 from .forms import ConnexionForm, InscriptionForm
 
 
-# Create your views here.
-def inscription(request):
-    if request.user.is_authenticated():
-        return redirect(reverse('vuln:index'))
-    error = False
-    if request.method == "POST":
-        form = InscriptionForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data["username"]
-            email = form.cleaned_data["email"]
-            password = form.cleaned_data["password"]
-
-            user = User.objects.create_user(username, email, password)
-            first_name = form.cleaned_data["first_name"]
-            last_name = form.cleaned_data["last_name"]
-            user.first_name = first_name
-            user.last_name = last_name
-            user.is_active = False
-
-            user.save()
-            return redirect(reverse('userManager:connexion'))
-            '''
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            return redirect(reverse('vuln:index'))
-            '''
-        else:
-            error = True
-    else:
-        form = InscriptionForm()
-
-    return render(request, 'userManager/inscription.html', locals())
-
-
 @sensitive_post_parameters()
 @csrf_protect
 @never_cache
