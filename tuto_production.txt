@@ -1,0 +1,45 @@
+sudo apt-get install libapache2-mod-wsgi
+
+
+https://docs.djangoproject.com/fr/1.8/howto/deployment/wsgi/modwsgi/
+
+sudo a2enmod wsgi
+
+sudo vim /etc/apache2/apache2.conf 
+########
+# KMAmossys
+########
+
+Alias /static/ /home/hdl/KM/vulnerabilitiesManager/webSite/static/
+
+<Directory /home/hdl/KM/vulnerabilitiesManager/webSite/static>
+Require all granted
+</Directory>
+
+
+WSGIScriptAlias / /home/hdl/KM/vulnerabilitiesManager/webSite/webSite/wsgi.py
+WSGIPythonPath /home/hdl/KM/vulnerabilitiesManager/webSite/
+
+<Directory /home/hdl/KM/vulnerabilitiesManager/webSite>
+<Files wsgi.py>
+Require all granted
+</Files>
+</Directory>
+
+
+########
+# Fin KMAmossys
+########
+
+
+
+sudo vim /etc/secret_key.txt
+sudo chmod 744 /etc/secret_key.txt
+
+HTTPS :
+(en utilisant sudo à chaque commande)
+http://www.it-connect.fr/configurer-le-ssl-avec-apache-2%EF%BB%BF/
+
+
+changer les parametres dans webSite/webSite/settings.py
+notamment le ldap

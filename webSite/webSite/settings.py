@@ -20,12 +20,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ksd%eg$s-98m@002odcd*&1sv!!g9&ya^2ciq&+rc)(=f^kg(1'
+with open('/etc/secret_key.txt') as f:
+    SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = '*'
 
 
 # Application definition
@@ -100,8 +102,23 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/home/hdl/KM/vulnerabilitiesManager/webSite/static/'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+os.environ['wsgi.url_scheme'] = 'https'
+SECURE_HSTS_SECONDS = True
+SECURE_SSL_REDIRECT = True
+
 
 GRAPPELLI_ADMIN_TITLE = 'KMAmossys'
+
+ADMINS = (
+    ('Hugo Delval', 'hugo.delval@amossys.fr'),
+)
 
 # UserManager
 LOGIN_URL = '/user/login/'
