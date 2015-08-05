@@ -2,14 +2,14 @@
 from django.db import models
 
 
-def iterativeIsEnfant(activiteMontante, autreActiviteAudit):
+def recursiveIsEnfant(activiteMontante, autreActiviteAudit):
     if activiteMontante is None:
         return False
     else:
         if activiteMontante == autreActiviteAudit:
             return True
         else:
-            return iterativeIsEnfant(activiteMontante.activiteParente, autreActiviteAudit)
+            return recursiveIsEnfant(activiteMontante.activiteParente, autreActiviteAudit)
 
 
 class ActiviteAudit(models.Model):
@@ -22,9 +22,13 @@ class ActiviteAudit(models.Model):
         return self.nom_activite
 
     def isEnfant(self, autreActiviteAudit):
+        """
+        :param autreActiviteAudit: l'activite d'audit dont laquelle on veut savoir si l'on est enfant
+        :return:True si self est un enfant de autreActiviteAudit
+        """
         if autreActiviteAudit is None:
             return True
-        return iterativeIsEnfant(self, autreActiviteAudit)
+        return recursiveIsEnfant(self, autreActiviteAudit)
 
 
 class ImpactVuln(models.Model):

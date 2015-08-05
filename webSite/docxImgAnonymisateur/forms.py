@@ -32,11 +32,6 @@ class DocxUploadFileForm(forms.Form):
                 self.error_messages['empty_file'],
                 code='empty_file',
             )
-        if os.path.splitext(str(fichier))[1] != '.docx':
-            raise forms.ValidationError(
-                self.error_messages['wrong_file'],
-                code='wrong_file',
-            )
         s = ''
         for b in fichier.chunks(10):
             s += b
