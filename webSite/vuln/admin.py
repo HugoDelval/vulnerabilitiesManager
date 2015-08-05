@@ -3,6 +3,7 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import *
+from vuln.custom_admin_form import MyActiviteAuditAdminForm
 
 
 class RecommandationInline(admin.StackedInline):
@@ -106,18 +107,21 @@ admin.site.register(Recommandation, RecommandationAdmin)
 #         return {}
 #
 # admin.site.register(DifficulteReco, DifficulteRecoAdmin)
-#
-#
-# class ActiviteAuditAdmin(admin.ModelAdmin):
-#     def get_model_perms(self, request):
-#         """
-#         Return empty perms dict thus hiding the model from admin index
-#         """
-#         return {}
-#
-# admin.site.register(ActiviteAudit, ActiviteAuditAdmin)
 
-admin.site.register(ActiviteAudit)
+
+class ActiviteAuditAdmin(admin.ModelAdmin):
+    # check on update
+    form = MyActiviteAuditAdminForm
+
+    # def get_model_perms(self, request):
+    #     """
+    #     Return empty perms dict thus hiding the model from admin index
+    #     """
+    #     return {}
+
+admin.site.register(ActiviteAudit, ActiviteAuditAdmin)
+
+# admin.site.register(ActiviteAudit)
 admin.site.register(DifficulteReco)
 admin.site.register(EcheanceReco)
 admin.site.register(ImpactVuln)
