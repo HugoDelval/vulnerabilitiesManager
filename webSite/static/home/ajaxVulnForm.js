@@ -1,3 +1,4 @@
+
 var index_modifie = 0;
 
 function getCookie(name) {
@@ -22,20 +23,47 @@ function csrfSafeMethod(method) {
 }
 
 function setupListeners() {
+    $('select#id_type').select2({
+        width: '100%'
+    });
+
+    $('select#mots_clefs_choice')
+        .select2({
+            tags: true,
+            placeholder: 'Choisis tes mots clefs !',
+            width: '100%',
+            matcher: function (params, data) {
+                // If there are no search terms, return all of the data
+                if ($.trim(params.term) === '') {
+                    return data;
+                }
+                // `params.term` should be the term that is used for searching
+                // `data.text` is the text that is displayed for the data object
+                if (data.text.toLowerCase().replace("-", "").indexOf(params.term.toLowerCase().replace("-", "")) > -1) {
+                    return $.extend({}, data, true);
+                }
+
+                // Return `null` if the term should not be displayed
+                return null;
+            }
+        })
+        .on('change keyup', function(){
+            ajaxForm();
+        });
 
     $('select[id^="id_activites_liees_"]').on('change keyup', function(){
         index_modifie = $(this).attr('id').split('liees_')[1];
         $('#id_index_modifie').val(index_modifie);
-        ajaxForm('#'+$(this).attr('id'));
+        ajaxForm();
     });
 
     $('#formulaire_recherche_vuln').on('submit', function(e){
         e.preventDefault();
-        ajaxForm('#id_mot_clef');
+        ajaxForm();
     });
 }
 
-function ajaxForm(elementToFocusSelector){
+function ajaxForm(){
     var csrftoken = getCookie('csrftoken');
 
     $.ajaxSetup({
@@ -47,6 +75,16 @@ function ajaxForm(elementToFocusSelector){
     });
 
     var form = $('#formulaire_recherche_vuln');
+    var mots_clefs = "";
+    form.find("#mots_clefs_choice").find("option:selected").each(function () {
+        var $this = $(this);
+        var nom = $this.text();
+        if (nom.length) {
+            mots_clefs += nom + "-";
+        }
+    });
+    $('#id_mots_clefs').val(mots_clefs);
+
     $.ajax({
         method: form.attr('method'),
         url: form.attr('action'),
@@ -54,6 +92,7 @@ function ajaxForm(elementToFocusSelector){
         success: function(html){
             $('#ajax_writtable').html(html);
             setupListeners();
+            $('input.select2-search__field').focus();
         },
         error: function(resultat, statut, erreur){
             $('#ajax_writtable').html("Désolé ! Une erreur serveur est survenue, veuillez réessayer.");
