@@ -3,7 +3,7 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import *
-from vuln.custom_admin_form import MyActiviteAuditAdminForm
+from vuln.custom_admin_form import MyActiviteAuditAdminForm, MyMotClefAdminForm
 
 
 class RecommandationInline(admin.StackedInline):
@@ -79,14 +79,15 @@ admin.site.register(Recommandation, RecommandationAdmin)
 # admin.site.register(Rapport, RapportAdmin)
 #
 #
-# class MotClefAdmin(admin.ModelAdmin):
-#     def get_model_perms(self, request):
-#         """
-#         Return empty perms dict thus hiding the model from admin index
-#         """
-#         return {}
-#
-# admin.site.register(MotClef, MotClefAdmin)
+class MotClefAdmin(admin.ModelAdmin):
+    form = MyMotClefAdminForm
+    # def get_model_perms(self, request):
+    #     """
+    #     Return empty perms dict thus hiding the model from admin index
+    #     """
+    #     return {}
+
+admin.site.register(MotClef, MotClefAdmin)
 #
 #
 # class EcheanceRecoAdmin(admin.ModelAdmin):
@@ -127,4 +128,4 @@ admin.site.register(EcheanceReco)
 admin.site.register(ImpactVuln)
 admin.site.register(DifficulteExploitVuln)
 admin.site.register(Rapport)
-admin.site.register(MotClef)
+# admin.site.register(MotClef)
