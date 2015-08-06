@@ -6,6 +6,7 @@ https://docs.djangoproject.com/fr/1.8/howto/deployment/wsgi/modwsgi/
 sudo a2enmod wsgi
 
 sudo vim /etc/apache2/apache2.conf 
+Rajoutez les lignes suivantes à la suite des directives <Directory></Directory>
 ########
 # KMAmossys
 ########
@@ -32,7 +33,7 @@ Require all granted
 ########
 
 
-
+Ajouter un secret dans /etc/secret_key.txt
 sudo vim /etc/secret_key.txt
 sudo chmod 744 /etc/secret_key.txt
 
@@ -41,10 +42,17 @@ HTTPS :
 http://www.it-connect.fr/configurer-le-ssl-avec-apache-2%EF%BB%BF/
 
 
-changer les parametres dans webSite/webSite/settings.py
-notamment le ldap
+changer les parametres dans webSite/webSite/settings.py notamment le ldap
 
+n'oubliez pas de générez les fichiers statics :
+le static_root est défini dans settings.py => à changer !
+Commande à lancer :
+	python manage.py collectstatic
+
+Pour l'upload des fichiers :
 sudo chown :www-data webSite/docxImgAnonymisateur/includes/doc_a_anonymiser -R
 sudo chmod 775 webSite/docxImgAnonymisateur/includes/doc_a_anonymiser
 sudo chown :www-data webSite/docxImgAnonymisateur/includes/doc_anonyme -R
 sudo chmod 775 webSite/docxImgAnonymisateur/includes/doc_anonyme
+
+
