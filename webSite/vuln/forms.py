@@ -11,19 +11,20 @@ class SearchVulnForm(forms.Form):
 
     dernier_index = 0
     index_modifie = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
-    mot_clef = forms.CharField(label="Mot Clef", required=False)
+    # mot_clef = forms.CharField(label="Mot Clef", required=False)
+    mots_clefs = forms.CharField(widget=forms.HiddenInput(), required=False)
     recherche_dans_la_description_de_la_vuln = forms.CharField(required=False)
     # activites_liees = forms.ModelChoiceField(label="Activité d'audit correspondante", queryset=ActiviteAudit.objects.all(), required=False)
 
     def __init__(self, *args, **kwargs):
         activite_parente = kwargs.pop('activite_parente', None)
         super(SearchVulnForm, self).__init__(*args, **kwargs)
-        self.fields['mot_clef'].widget.attrs \
-            .update({
-                'placeholder': "ex : XSS",
-                'class': 'form-control',
-                'autofocus': 'true',
-            })
+        # self.fields['mot_clef'].widget.attrs \
+        #     .update({
+        #         'placeholder': "ex : XSS",
+        #         'class': 'form-control',
+        #         'autofocus': 'true',
+        #     })
         self.fields['recherche_dans_la_description_de_la_vuln'].widget.attrs \
             .update({
                 'placeholder': "ex : filtrage des données utilisateur",

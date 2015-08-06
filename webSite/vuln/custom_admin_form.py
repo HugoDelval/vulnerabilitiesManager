@@ -18,3 +18,18 @@ class MyActiviteAuditAdminForm(forms.ModelForm):
                         code='boucle',
                     )
         return activite
+
+
+class MyMotClefAdminForm(forms.ModelForm):
+    error_messages = {
+        'caractere_interdit': "Le caractère '-' est interdit dsl.",
+    }
+
+    def clean_nom(self):
+        nom = self.cleaned_data["nom"]
+        if '-' in nom:
+            raise forms.ValidationError(
+                self.error_messages['caractere_interdit'],
+                code='caractere_interdit',
+            )
+        return nom

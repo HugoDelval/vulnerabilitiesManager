@@ -11,11 +11,17 @@
         </div><!-- /.box-header -->
         <div class="box-body">
             <form action="{% url 'vuln:search_vuln' %}" method="post" id="formulaire_recherche_vuln">
-                <!-- text input -->
-                <div class="form-group {% if form.mot_clef.errors %}has-error{% endif %}">
-                    {{ form.mot_clef.label_tag }} {{ form.mot_clef }}
-                    {% for error in form.mot_clef.errors %}
-                    <p class="text-red">{{ error }}</p>
+
+                <div class="form-group {% if form.mots_clefs.errors %}has-error{% endif %}">
+                    <label for="mots_clefs_choice">{{ form.mots_clefs.label }}</label>
+                    {{ form.mots_clefs }}<!-- hidden tag -->
+                    <select class="form-control" id="mots_clefs_choice" multiple="multiple">
+                        {% for mot_clef in vuln_mots_clefs %}
+                            <option value="{{ mot_clef.pk }}" {% if mot_clef in mots_clefs_selectionnes %}selected{% endif %}>{{ mot_clef.nom }}</option>
+                        {% endfor %}
+                    </select>
+                    {% for error in form.mots_clefs.errors %}
+                        <p class="text-red">{{ error }}</p>
                     {% endfor %}
                 </div>
 
