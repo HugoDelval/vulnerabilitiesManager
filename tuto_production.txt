@@ -43,3 +43,8 @@ http://www.it-connect.fr/configurer-le-ssl-avec-apache-2%EF%BB%BF/
 
 changer les parametres dans webSite/webSite/settings.py
 notamment le ldap
+
+sudo chown :www-data webSite/docxImgAnonymisateur/includes/doc_a_anonymiser -R
+sudo chmod 775 webSite/docxImgAnonymisateur/includes/doc_a_anonymiser
+sudo chown :www-data webSite/docxImgAnonymisateur/includes/doc_anonyme -R
+sudo chmod 775 webSite/docxImgAnonymisateur/includes/doc_anonyme
