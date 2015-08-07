@@ -7,6 +7,7 @@ from django.views import generic
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
+from django.utils.decorators import method_decorator
 import operator
 
 from .forms import SearchVulnForm, SearchRecoForm
@@ -17,7 +18,7 @@ class VulnDetailView(generic.DetailView):
     model = Vulnerabilite
     # template_name = 'vuln/vulnerabilite_detail.html'
 
-    @login_required
+    @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(VulnDetailView, self).dispatch(*args, **kwargs)
 
@@ -26,7 +27,7 @@ class RecoDetailView(generic.DetailView):
     model = Recommandation
     # template_name = 'vuln/recommandation_detail.html'
 
-    @login_required
+    @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(RecoDetailView, self).dispatch(*args, **kwargs)
 
