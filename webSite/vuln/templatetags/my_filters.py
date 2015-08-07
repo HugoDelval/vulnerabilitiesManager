@@ -2,6 +2,13 @@ from django import template
 
 register = template.Library()
 
+@register.filter(name='times_0')
+def times(number):
+    try:
+        a = range(number)
+    except TypeError:
+        a = range(0)
+    return a
 
 @register.filter(name='times')
 def times(number):
