@@ -35,8 +35,8 @@ def get_hash_f_r(posts):
     if posts['texte_final']:
         res[posts['texte_original']] = posts['texte_final']
     for i in range(0, int(posts['extra_field_count'])):
-        value = posts['extra_texte_final_{index}'.format(index=i)].decode("unicode")
-        clef = posts['extra_texte_original_{index}'.format(index=i)].decode("unicode")
+        value = posts['extra_texte_final_{index}'.format(index=i)]
+        clef = posts['extra_texte_original_{index}'.format(index=i)]
         if value and clef:
             res[clef] = value
     return res
