@@ -63,7 +63,7 @@ def process(inputfile, outputdirectory, blur_radius=17, hash_find_replace={}):
     for fname in archive_list:
         zout.write(fname, fname[len(temp_directory):])
     zout.close()
-    # shutil.rmtree(temp_directory)
+    shutil.rmtree(temp_directory)
 
 
 def error_input():
