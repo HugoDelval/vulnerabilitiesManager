@@ -86,7 +86,7 @@ class Vulnerabilite(models.Model):
     # difficulte d'exploit de la vuln
     difficulte_exploit = models.ForeignKey(DifficulteExploitVuln)
     # les rapports où on a trouvé la vuln
-    rapports_ou_on_a_trouve_la_vuln = models.ManyToManyField(Rapport)
+    rapports_ou_on_a_trouve_la_vuln = models.ManyToManyField(Rapport, blank=True)
     # tous les mot-clefs associés à cette vuln
     mots_clefs = models.ManyToManyField(MotClef)
     # toutes les activités d'audit, les plus précises possibles, qui sont liées à la vuln
