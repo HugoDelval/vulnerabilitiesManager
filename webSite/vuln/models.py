@@ -54,7 +54,7 @@ class DifficulteExploitVuln(models.Model):
     description_acte_involontaire = models.TextField()
 
     def __unicode__(self):
-        return str(self.description_niveau)
+        return self.description_niveau
 
 
 class MotClef(models.Model):
