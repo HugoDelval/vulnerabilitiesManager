@@ -53,12 +53,12 @@ def getQueryForMotsClefsAndDescription(cleaned_data):
     mots_clefs = s.split('-')
     if len(mots_clefs) > 1:
         mots_clefs.pop()
-    mots_clefs_selectionnes = MotClef.objects.filter(reduce(operator.or_, (Q(nom=item) for item in mots_clefs)))
     desc = cleaned_data["recherche_dans_la_description_de_la_vuln"]
-    if mots_clefs_selectionnes:
-        return reduce(operator.and_, (Q(mots_clefs=item, description__icontains=desc) for item in mots_clefs_selectionnes)), mots_clefs_selectionnes
-    else:
-        return Q(description__icontains=desc), []
+    if mots_clefs:
+        mots_clefs_selectionnes = MotClef.objects.filter(nom__in=mots_clefs)
+        if mots_clefs_selectionnes:
+            return reduce(operator.and_, (Q(pk__in=item.vulnerabilite_set.all(), description__icontains=desc) for item in mots_clefs_selectionnes)), mots_clefs_selectionnes
+    return Q(description__icontains=desc), []
 
 
 @sensitive_post_parameters()
