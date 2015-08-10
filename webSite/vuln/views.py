@@ -83,9 +83,12 @@ def searchVuln(request):
                     if activite.isEnfant(activite_parente):
                         vulnerabilite_list.append(vuln)
                         break
-            vuln_mots_clefs = MotClef.objects.all()
         else:
             error_message = 'Votre requête contient des erreurs, veuillez réessayer svp.'
+        if vulnerabilite_list:
+            vuln_mots_clefs = MotClef.objects.filter(vulnerabilite__in=vulnerabilite_list).distinct()
+        else:
+            vuln_mots_clefs = MotClef.objects.all()
         return render(request, 'vuln/vulnerabilite_list_body.html', locals())
     else:
         return redirect(reverse('vuln:index'))
@@ -117,16 +120,16 @@ def getQueryForThemeAndExplication(cleaned_data):
 @login_required
 def searchReco(request):
     if request.method == "POST":
-        themes_recos = ThemeReco.objects.all()
         form = SearchRecoForm(request.POST)
         if form.is_valid():
-            try:
-                query, themes_recos_selectionnes = getQueryForThemeAndExplication(form.cleaned_data)
-                recommandation_list = Recommandation.objects.filter(query)
-            except Exception as e:
-                print e
+            query, themes_recos_selectionnes = getQueryForThemeAndExplication(form.cleaned_data)
+            recommandation_list = Recommandation.objects.filter(query)
         else:
             error_message = 'Votre requête contient des erreurs, veuillez réessayer svp.'
+        if recommandation_list:
+            themes_recos = ThemeReco.objects.filter(recommandation__in=recommandation_list).distinct()
+        else:
+            themes_recos = ThemeReco.objects.all()
         return render(request, 'vuln/recommandation_list_body.html', locals())
     else:
         return redirect(reverse('vuln:recos'))
