@@ -11,7 +11,7 @@ from django.utils.decorators import method_decorator
 import operator
 
 from .forms import SearchVulnForm, SearchRecoForm
-from .models import Vulnerabilite, Recommandation, ActiviteAudit, MotClef
+from .models import Vulnerabilite, Recommandation, ActiviteAudit, MotClef, ThemeReco
 
 
 class VulnDetailView(generic.DetailView):
@@ -95,7 +95,21 @@ def searchVuln(request):
 def displayReco(request):
     recommandation_list = Recommandation.objects.all()
     form = SearchRecoForm()
+    themes_recos = ThemeReco.objects.all()
     return render(request, 'vuln/recommandation_list.html', locals())
+
+
+def getQueryForThemeAndExplication(cleaned_data):
+    s = cleaned_data["themes"]
+    themes_recos = s.split('-')
+    if len(themes_recos) > 1:
+        themes_recos.pop()
+    desc = cleaned_data["recherche_dans_explication_reco"]
+    if themes_recos:
+        themes_recos_selectionnes = ThemeReco.objects.filter(nom__in=themes_recos)
+        if themes_recos_selectionnes:
+            return reduce(operator.and_, (Q(pk__in=item.recommandation_set.all(), explication__icontains=desc) for item in themes_recos_selectionnes)), themes_recos_selectionnes
+    return Q(explication__icontains=desc), []
 
 
 @sensitive_post_parameters()
@@ -103,12 +117,16 @@ def displayReco(request):
 @login_required
 def searchReco(request):
     if request.method == "POST":
+        themes_recos = ThemeReco.objects.all()
         form = SearchRecoForm(request.POST)
         if form.is_valid():
-            expl = form.cleaned_data["recherche_dans_explication_reco"]
-            recommandation_list = Recommandation.objects.filter(explication__icontains=expl)
+            try:
+                query, themes_recos_selectionnes = getQueryForThemeAndExplication(form.cleaned_data)
+                recommandation_list = Recommandation.objects.filter(query)
+            except Exception as e:
+                print e
         else:
             error_message = 'Votre requête contient des erreurs, veuillez réessayer svp.'
-        return render(request, 'vuln/recommandation_list.html', locals())
+        return render(request, 'vuln/recommandation_list_body.html', locals())
     else:
         return redirect(reverse('vuln:recos'))

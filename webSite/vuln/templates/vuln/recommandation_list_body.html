@@ -1,0 +1,55 @@
+<div id="ajax_writtable">
+
+    {% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+    {% endif %}
+
+    <div class="box box-sucess">
+        <div class="box-header with-border">
+            <h3 class="box-title">Recherche de Recommandations par mot-clef.</h3>
+        </div><!-- /.box-header -->
+        <div class="box-body">
+            <form action="{% url 'vuln:search_reco' %}" method="post" id="formulaire_recherche_reco">
+
+                <div class="form-group {% if form.themes.errors %}has-error{% endif %}">
+                    <label for="themes_choice">{{ form.themes.label }}</label>
+                    {{ form.themes }}<!-- hidden tag -->
+                    <select class="form-control" id="themes_choice" multiple="multiple">
+                        {% for theme_reco in themes_recos %}
+                            <option value="{{ theme_reco.pk }}" {% if theme_reco in themes_recos_selectionnes %}selected{% endif %}>{{ theme_reco.nom }}</option>
+                        {% endfor %}
+                    </select>
+                    {% for error in form.themes.errors %}
+                        <p class="text-red">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group {% if form.recherche_dans_explication_reco.errors %}has-error{% endif %}">
+                    {{ form.recherche_dans_explication_reco.label_tag }} {{ form.recherche_dans_explication_reco }}
+                    {% for error in form.recherche_dans_explication_reco.errors %}
+                    <p class="text-red">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="col-xs-4 col-xs-offset-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Search for Recos!</button>
+                </div><!-- /.col -->
+                {% csrf_token %}
+            </form>
+        </div><!-- /.box-body -->
+    </div>
+
+    {%  if recommandation_list %}
+    <h4>Affichage temporaire le temps de remplir la BDD.</h4>
+    <ul>
+    {%  for recommandation in recommandation_list %}
+        <li>
+            <a href="{% url 'vuln:show_me_this_reco' recommandation.id %}">{{ recommandation }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+    {% else %}
+    <p>Désolé, nous n'avons trouvé aucun résultat correspondant à votre recherche.</p>
+    {% endif %}
+
+</div> {# end ajax_writtable #}

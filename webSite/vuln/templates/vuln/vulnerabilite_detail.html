@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block body %}
+    <h4>Affichage temporaire le temps de remplir la BDD.</h4>
     <a href="{% url 'vuln:show_me_this_vuln' vulnerabilite.id %}"> <h2>Vulnérabilite {{ vulnerabilite }}</h2></a>
     {% include "vuln/vuln_display.html" %}
 

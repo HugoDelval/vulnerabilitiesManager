@@ -130,11 +130,21 @@ class DifficulteReco(models.Model):
         return self.description
 
 
+class ThemeReco(models.Model):
+    # ex : réseau, architecture, gestion des sauvegardes..
+    nom = models.CharField(max_length=255, unique=True)
+
+    def __unicode__(self):
+        return self.nom
+
+
 class Recommandation(models.Model):
     # echeance de la recommandation, si elle est urgente
     echeance = models.ForeignKey(EcheanceReco)
     # difficulte de mise en place de la reco
     cout_reco = models.ForeignKey(DifficulteReco)
+    # thèmes de la reco
+    themes = models.ManyToManyField(ThemeReco, blank=True)
     # la vunerabilite associee a la recommandation
     vuln = models.ForeignKey(Vulnerabilite, blank=True, null=True)
     # explication detaillee de la recommandation pour le client
