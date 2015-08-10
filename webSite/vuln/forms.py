@@ -76,6 +76,7 @@ class SearchVulnForm(forms.Form):
 
 class SearchRecoForm(forms.Form):
     recherche_dans_explication_reco = forms.CharField(label='Recherche dans l\'explication de la reco', required=False)
+    themes = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     def __init__(self, *args, **kwargs):
         super(SearchRecoForm, self).__init__(*args, **kwargs)

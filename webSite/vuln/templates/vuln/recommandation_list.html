@@ -11,41 +11,16 @@
 {% endblock %}
 
 {% block body %}
-{% if error_message %}
-    <p><strong>{{ error_message }}</strong></p>
-    {% endif %}
+    {% include 'vuln/recommandation_list_body.html' %}
+{% endblock %}
 
-    <div class="box box-sucess">
-        <div class="box-header with-border">
-            <h3 class="box-title">Recherche de Recommandations par mot-clef.</h3>
-        </div><!-- /.box-header -->
-        <div class="box-body">
-            <form action="{% url 'vuln:search_reco' %}" method="post" id="formulaire_recherche_reco">
-                <!-- text input -->
-                <div class="form-group {% if form.recherche_dans_explication_reco.errors %}has-error{% endif %}">
-                    {{ form.recherche_dans_explication_reco.label_tag }} {{ form.recherche_dans_explication_reco }}
-                    {% for error in form.recherche_dans_explication_reco.errors %}
-                    <p class="text-red">{{ error }}</p>
-                    {% endfor %}
-                </div>
+{% block base_footer_addons %}
+    <script src="{% static 'vuln/select2.min.js' %}"></script>
+    <script src="{% static 'vuln/ajaxRecoForm.js' %}" type="text/javascript"></script>
+{% endblock %}
 
-                <div class="col-xs-4 col-xs-offset-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">Search for Recos!</button>
-                </div><!-- /.col -->
-                {% csrf_token %}
-            </form>
-        </div><!-- /.box-body -->
-    </div>
-
-    {%  if recommandation_list %}
-    <ul>
-    {%  for recommandation in recommandation_list %}
-        <li>
-            <a href="{% url 'vuln:show_me_this_reco' recommandation.id %}">{{ recommandation }}</a>
-        </li>
-    {% endfor %}
-    </ul>
-    {% else %}
-    <p>Désolé, nous n'avons trouvé aucun résultat correspondant à votre recherche.</p>
-    {% endif %}
+{% block page_header_addons %}
+    <!-- select2 -->
+    {{ block.super }}
+    <link href="{% static 'vuln/select2.min.css' %}" rel="stylesheet"/>
 {% endblock %}
