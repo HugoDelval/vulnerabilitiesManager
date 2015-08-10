@@ -97,7 +97,7 @@ class Vulnerabilite(models.Model):
     estBoiteNoire = models.BooleanField()
 
     def __unicode__(self):
-        return self.description[:50]+"..."
+        return self.description[:70]+"..."
 
 
 class EcheanceReco(models.Model):
@@ -141,5 +141,5 @@ class Recommandation(models.Model):
     explication = models.TextField()
 
     def __unicode__(self):
-        return self.explication[:50]+"..."
+        return self.explication[:70]+"..."
 

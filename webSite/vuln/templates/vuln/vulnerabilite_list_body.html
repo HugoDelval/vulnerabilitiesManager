@@ -60,7 +60,7 @@
     <ul>
     {%  for vuln in vulnerabilite_list %}
         <li>
-            <a href="{% url 'vuln:show_me_this_vuln' vuln.id %}">{{ vuln.mots_clefs.first }}</a>
+            <a href="{% url 'vuln:show_me_this_vuln' vuln.id %}">{{ vuln }}</a>
         </li>
     {% endfor %}
     </ul>
