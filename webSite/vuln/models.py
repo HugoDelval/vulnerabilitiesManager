@@ -136,7 +136,7 @@ class Recommandation(models.Model):
     # difficulte de mise en place de la reco
     cout_reco = models.ForeignKey(DifficulteReco)
     # la vunerabilite associee a la recommandation
-    vuln = models.ForeignKey(Vulnerabilite)
+    vuln = models.ForeignKey(Vulnerabilite, blank=True, null=True)
     # explication detaillee de la recommandation pour le client
     explication = models.TextField()
 
