@@ -23,14 +23,14 @@ function csrfSafeMethod(method) {
 }
 
 function setupListeners() {
-    $('select#mots_clefs_choice').select2({
+    $('select#themes_choice').select2({
         width: '100%'
     });
 
-    $('select#mots_clefs_choice')
+    $('select#themes_choice')
         .select2({
             tags: true,
-            placeholder: 'Choisis tes mots clefs !',
+            placeholder: 'Choisis tes thèmes de recommandation !',
             width: '100%',
             matcher: function (params, data) {
                 // If there are no search terms, return all of the data
@@ -51,13 +51,7 @@ function setupListeners() {
             ajaxForm();
         });
 
-    $('select[id^="id_activites_liees_"]').on('change keyup', function(){
-        index_modifie = $(this).attr('id').split('liees_')[1];
-        $('#id_index_modifie').val(index_modifie);
-        ajaxForm();
-    });
-
-    $('#formulaire_recherche_vuln').on('submit', function(e){
+    $('#formulaire_recherche_reco').on('submit', function(e){
         e.preventDefault();
         ajaxForm();
     });
@@ -74,16 +68,16 @@ function ajaxForm(){
         }
     });
 
-    var form = $('#formulaire_recherche_vuln');
-    var mots_clefs = "";
-    form.find("#mots_clefs_choice").find("option:selected").each(function () {
+    var form = $('#formulaire_recherche_reco');
+    var themes = "";
+    form.find("#themes_choice").find("option:selected").each(function () {
         var $this = $(this);
         var nom = $this.text();
         if (nom.length) {
-            mots_clefs += nom + "-";
+            themes += nom + "-";
         }
     });
-    $('#id_mots_clefs').val(mots_clefs);
+    $('#id_themes').val(themes);
 
     $.ajax({
         method: form.attr('method'),
