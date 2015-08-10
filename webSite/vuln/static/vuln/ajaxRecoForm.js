@@ -86,7 +86,6 @@ function ajaxForm(){
         success: function(html){
             $('#ajax_writtable').html(html);
             setupListeners();
-            $('input.select2-search__field').focus();
         },
         error: function(resultat, statut, erreur){
             $('#ajax_writtable').html("Désolé ! Une erreur serveur est survenue, veuillez réessayer.");
