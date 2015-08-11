@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# coding: utf8
 from tempfile import mkstemp
 import zipfile  # docx est au format zip
 import os
@@ -37,8 +38,9 @@ def replace(word_directory, hash_find_replace):
                 with open(file_path) as old_file:
                     for to_search in hash_find_replace:
                         for line in old_file:
-                            new_file.write(re.sub(to_search, hash_find_replace[to_search],
-                                line.decode('ascii', 'ignore'), flags=re.IGNORECASE))
+                            new_file.write(re.sub(to_search.decode('utf8'),
+                                hash_find_replace[to_search].decode('utf8'),
+                                line, flags=re.IGNORECASE))
             os.close(fh)
             #Remove original file
             os.remove(file_path)
