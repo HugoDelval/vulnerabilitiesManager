@@ -92,7 +92,8 @@ function ajaxForm(){
         success: function(html){
             $('#ajax_writtable').html(html);
             setupListeners();
-            $('input.select2-search__field').focus();
+            $("span.select2-container--open").removeClass('select2-container--open');
+            $("span.select2-container--open").removeClass('select2-container--close');
         },
         error: function(resultat, statut, erreur){
             $('#ajax_writtable').html("Désolé ! Une erreur serveur est survenue, veuillez réessayer.");
