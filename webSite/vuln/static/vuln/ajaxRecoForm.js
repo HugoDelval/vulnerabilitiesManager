@@ -86,8 +86,9 @@ function ajaxForm(){
         success: function(html){
             $('#ajax_writtable').html(html);
             setupListeners();
-            $("span.select2-container--open").removeClass('select2-container--open');
-            $("span.select2-container--open").addClass('select2-container--close');
+            var span = $("span.select2-container--open")
+            span.removeClass('select2-container--open');
+            span.addClass('select2-container--close');
         },
         error: function(resultat, statut, erreur){
             $('#ajax_writtable').html("Désolé ! Une erreur serveur est survenue, veuillez réessayer.");
