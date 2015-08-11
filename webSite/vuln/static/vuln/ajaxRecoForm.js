@@ -86,7 +86,7 @@ function ajaxForm(){
         success: function(html){
             $('#ajax_writtable').html(html);
             setupListeners();
-            var span = $("span.select2-container--open")
+            var span = $("span.select2-container--open");
             span.removeClass('select2-container--open');
             span.addClass('select2-container--close');
         },
