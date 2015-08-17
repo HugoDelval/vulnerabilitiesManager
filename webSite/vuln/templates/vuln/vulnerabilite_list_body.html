@@ -56,7 +56,13 @@
         </div><!-- /.box-body -->
     </div>
 
+    <a href="{% url 'admin:vuln_vulnerabilite_add' %}" class="btn btn-default btn-flat">
+        <i class="fa fa-plus"></i>
+        Ajouter une Vulnérabilité
+    </a>
+
     {%  if vulnerabilite_list %}
+    <a href="{% url 'admin:vuln_vulnerabilite_add' %}"></a>
     <h4>Affichage temporaire le temps de remplir la BDD.</h4>
     <ul>
     {%  for vuln in vulnerabilite_list %}
