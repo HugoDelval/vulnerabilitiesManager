@@ -37,6 +37,7 @@ class RecommandationAdmin(admin.ModelAdmin):
         ('Echelle d\'urgence', {'fields': ['echeance', 'cout_reco']}),
         ('La vuln associée (optionnel)', {'fields': ['vuln',]}),
         ('Les thèmes associés (optionnel)', {'fields': ['themes',]}),
+        ('Le(s) rapports où on a trouvé la recommandation', {'fields': ['rapports_ou_on_a_trouve_la_reco',]}),
         ('Une bonne explication de la recommandation pour le client', {'fields': ['explication']})
     ]
     list_display = ('__unicode__', 'echeance', 'cout_reco')
