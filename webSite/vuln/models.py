@@ -143,6 +143,8 @@ class Recommandation(models.Model):
     echeance = models.ForeignKey(EcheanceReco)
     # difficulte de mise en place de la reco
     cout_reco = models.ForeignKey(DifficulteReco)
+    # les rapports où on a trouvé la vuln
+    rapports_ou_on_a_trouve_la_reco = models.ManyToManyField(Rapport, blank=True)
     # thèmes de la reco
     themes = models.ManyToManyField(ThemeReco, blank=True)
     # la vunerabilite associee a la recommandation
