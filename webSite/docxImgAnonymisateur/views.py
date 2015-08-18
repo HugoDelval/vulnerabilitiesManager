@@ -10,6 +10,7 @@ from .forms import *
 from .includes.anonymiser_images_docx import process
 from django.core.servers.basehttp import FileWrapper
 
+# entier utilisé pour ne pas avoir 2 dossiers du même nom
 manual_lock = 0
 
 
@@ -30,6 +31,8 @@ def clean(absolute_path):
             print e
 
 
+# récupère les demandes de find/replace de l'utilisateur
+# sous la forme de {'mot à rechercher': 'mot à substituer'}
 def get_hash_f_r(posts):
     res = {}
     if posts['texte_final']:
@@ -47,8 +50,11 @@ def get_hash_f_r(posts):
 @sensitive_post_parameters()
 @login_required
 def index(request):
+    # entier utilisé pour ne pas avoir 2 dossiers du même nom
     global manual_lock
+    # le chemin vers le dossier où le fichier à anonymiser sont téléchargés
     dirty_path = os.path.dirname(__file__) + '/includes/doc_a_anonymiser/'
+    # le chemin vers le dossier où le fichier anonymisé va être construit
     cleaned_path = os.path.dirname(__file__) + '/includes/doc_anonyme/'
     # suppression des fichiers 'temporaires'
     clean(dirty_path)
@@ -57,16 +63,19 @@ def index(request):
         form = DocxUploadFileForm(request.POST, request.FILES, extra=request.POST.get('extra_field_count'))
         if form.is_valid():
             manual_lock += 1
+            # on construit un chemin de fichier unique correspondant au fichier que l'utilisateur nous envoie pour anonymisation
             dirty_path_file = dirty_path + str(manual_lock) + '.docx'
+            # idem on construit un chemin de fichier unique correspondant au fichier anonyme que l'on va construire
             filename = cleaned_path + 'anonyme_' + str(manual_lock) + '.docx'
+            # le nom tel que le verra l'utilisateur lorsqu'il récupèrera le fichier anonyme
             download_name = 'anonymise.docx'
+            # sous la forme {'mot à rechercher': 'mot à substituer'}
             hash_find_replace = get_hash_f_r(request.POST)
             try:
-                # TODO : gestion de base de données ???
-                # stocker les documents anonymiser avec leur nom + chemin en bdd
                 with open(dirty_path_file, 'wb') as destination:
                     for chunk in request.FILES['fichier'].chunks():
                         destination.write(chunk)
+                # voir includes/anonymiser_images_docx.py
                 process(dirty_path_file, cleaned_path, form.cleaned_data['niveau_de_flou'], hash_find_replace)
 
                 wrapper = FileWrapper(open(filename))
