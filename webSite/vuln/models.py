@@ -132,12 +132,12 @@ class DifficulteReco(models.Model):
         return self.description
 
 
-class ThemeReco(models.Model):
-    # ex : réseau, architecture, gestion des sauvegardes..
-    nom = models.CharField(max_length=255, unique=True)
+# class ThemeReco(models.Model):
+#     # ex : réseau, architecture, gestion des sauvegardes..
+#     nom = models.CharField(max_length=255, unique=True)
 
-    def __unicode__(self):
-        return self.nom
+#     def __unicode__(self):
+#         return self.nom
 
 
 class Recommandation(models.Model):
@@ -148,7 +148,7 @@ class Recommandation(models.Model):
     # les rapports où on a trouvé la vuln
     rapports_ou_on_a_trouve_la_reco = models.ManyToManyField(Rapport, blank=True)
     # thèmes de la reco
-    themes = models.ManyToManyField(ThemeReco, blank=True)
+    themes = models.ManyToManyField(MotClef, blank=True)
     # la vunerabilite associee a la recommandation
     vuln = models.ForeignKey(Vulnerabilite, blank=True, null=True)
     # explication detaillee de la recommandation pour le client

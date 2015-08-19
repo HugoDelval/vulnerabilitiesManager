@@ -22,6 +22,7 @@ class VulnerabiliteAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Echelle de sévérité', {'fields': ['impact', 'difficulte_exploit', 'estBoiteNoire']}),
         ('Pour retrouver la vuln facilement..', {'fields': ['rapports_ou_on_a_trouve_la_vuln', 'mots_clefs', 'activites_liees']}),
+        ('Une définition de la vulnérabilité', {'fields': ['definition']}),
         ('Une bonne description de la vuln pour le client', {'fields': ['description']})
     ]
     inlines = [RecommandationInline]
@@ -36,7 +37,7 @@ class RecommandationAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Echelle d\'urgence', {'fields': ['echeance', 'cout_reco']}),
         ('La vuln associée (optionnel)', {'fields': ['vuln',]}),
-        ('Les thèmes associés (optionnel)', {'fields': ['themes',]}),
+        ('Les mots clefs associés (optionnel)', {'fields': ['themes',]}),
         ('Le(s) rapports où on a trouvé la recommandation', {'fields': ['rapports_ou_on_a_trouve_la_reco',]}),
         ('Une bonne explication de la recommandation pour le client', {'fields': ['explication']})
     ]
