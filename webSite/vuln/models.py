@@ -99,7 +99,7 @@ class Vulnerabilite(models.Model):
     estBoiteNoire = models.BooleanField()
 
     def __unicode__(self):
-        return self.description[:80]+' '+self.definition[:80]"..."
+        return self.description[:80]+' '+self.definition[:80]+"..."
 
 
 class EcheanceReco(models.Model):
