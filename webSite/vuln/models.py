@@ -93,6 +93,8 @@ class Vulnerabilite(models.Model):
     activites_liees = models.ManyToManyField(ActiviteAudit)
     # explication de la vulnerabilite pour le client (ou qqun qui ne la connait pas)
     description = models.TextField()
+    # definition de la vulnerabilite pour le client 
+    definition = models.TextField()
     # la vuln est-elle consideree en boite noire ? True/False
     estBoiteNoire = models.BooleanField()
 
