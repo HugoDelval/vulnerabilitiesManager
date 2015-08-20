@@ -15,7 +15,7 @@
     {% include "vuln/vuln_display.html" %}
 
     <h3>Recommandation(s) associée(s) :</h3>
-    {% if vulnerabilite.recommandation_set.all %}
+    {% if vulnerabilite.recommandation_set %}
         {% for recommandation in vulnerabilite.recommandation_set.all %}
             {% include "vuln/reco_display.html" %}
         {% endfor %}
