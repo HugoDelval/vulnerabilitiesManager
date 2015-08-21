@@ -6,3 +6,4 @@ webSite/uploads/*
 webSite/*/*.pyc
 webSite/docxImgAnonymisateur/includes/doc_a_anonymiser/*
 webSite/docxImgAnonymisateur/includes/doc_anonyme/*
+webSite/secret_key.txt

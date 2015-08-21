@@ -17,6 +17,11 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic import RedirectView
 
+## Rajoute car il y avait une erreur 'Models aren't loaded yet.'
+import django
+django.setup()
+## Si vous trouvez un autre moyen plus propre d'eviter cette erreur, n'hesitez pas !
+
 urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^user/', include('userManager.urls', namespace='userManager')),
