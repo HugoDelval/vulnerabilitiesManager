@@ -132,13 +132,6 @@ class DifficulteReco(models.Model):
         return self.description
 
 
-# class ThemeReco(models.Model):
-#     # ex : réseau, architecture, gestion des sauvegardes..
-#     nom = models.CharField(max_length=255, unique=True)
-
-#     def __unicode__(self):
-#         return self.nom
-
 
 class Recommandation(models.Model):
     # echeance de la recommandation, si elle est urgente
