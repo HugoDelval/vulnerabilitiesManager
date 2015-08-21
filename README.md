@@ -12,7 +12,7 @@ N'oubliez pas de lancez mysql :
 
 	sudo service mysql start
 
-Vous serez peut-être amené à créer une base de données :
+Créer une base de données :
 
 	CREATE DATABASE kmbdd;
 
@@ -109,6 +109,10 @@ Ouvrir une cmd.exe dans le répertoire racine de l'appli (C:\www) :
 
 	pip install Pillow
 
+	pip install pyparsing==1.5.7
+
+	pip install pydot
+
 	python manage.py collectstatic
 
 Créer un fichier secret_key.txt accessible par IIS (donc dans C:\\www par exemple) contenant une ligne qui sera une clef pour django (donc il faut qu'elle soit complexe)
@@ -129,13 +133,21 @@ Ceci est une note au développeur. Il semblait nécessaire de forcer le chargeme
 
 Ainsi nous avons rajouté la ligne *django.setup()* dans le fichier *webSite/urls.py*
 
+#### Test partie Django - IIS
+
 Cliquer sur le site > Authentification > clic droit sur **Authentification anonyme** > Modifier > Identité du pool d'application
 
 A ce stade le site fonctionne (normalement). Arreter le serveur puis relancer le et faire de même pour le site web. Aller ensuite sur localhost via IE. Si vous voyez une page de conexion alors parfait, sinon débugguer.
 
 Source : http://www.helicontech.com/articles/running-django-on-windows-with-performance-tests/
 
-#### Lien avec l'Active Directory
+#### IIS - Active Directory
+
+La suite est un test d'authentification*Kerberos* qui a été monté en local. Tou n'est donc pas à prendre (vous pouvez ignorer la création de l'AD par exemple)
+
+Creer un AD en rajoutant un rôle au serveur. Creer une foret (HUGO.AD ici). Ajouter un serveur DNS
+
+Ouvrir le centre d'administration de active director. HUGO > Domain Controllers > double clic sur le serveur > Délégation > Approuver délégation Kerberos
 
 Cliquer sur le site > Authentification > désactiver authentification anonyme > activer authentification windows
 
@@ -143,7 +155,23 @@ Authentification Windows > Paramètres avancés > désactiver l'authentification
 
 Authentification Windows > Fournisseurs > Supprimer tout et ne mettre que *Negotiate:Kerberos*
 
+#### 2nde magouille
 
+A ce stade l'authentification devrait être opérationnelle. Cependant on veut que toutes les personnes se connectant en remote user aient accès à l'interface admin. Pour ce faire on va modifier le comportement par défaut de django :
+
+Ouvrir le fichier C:\Python27\Lib\site-packages\django\contrib\auth\models.py
+
+Modifier l'attribut is_superuser de PermissionMixin ligne 308 : changer **default=False** en **default=True**
+
+Modifier l'attribut is_staff de AbstractUser ligne 400 : changer **default=False** en **default=True**
+
+Ainsi les comptes créés automatiquement lors de la connexion via KERBEROS seront des comptes administrateur.
+
+#### export modèle et base de données
+
+Ouvrir un cmd.exe dans le répertoire C:\www et executer :
+
+	python manage.py migrate
 
 ## Developpement
 

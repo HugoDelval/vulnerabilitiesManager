@@ -5,6 +5,11 @@ from django.contrib import admin
 from .models import *
 from vuln.custom_admin_form import MyActiviteAuditAdminForm, MyMotClefAdminForm
 
+from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
+
+admin.site.unregister(User)
+admin.site.unregister(Group)
 
 class RecommandationInline(admin.StackedInline):
     model = Recommandation
