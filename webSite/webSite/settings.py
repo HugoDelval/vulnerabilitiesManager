@@ -124,44 +124,9 @@ ADMINS = (
 LOGIN_URL = '/user/login/'
 
 
-########################
-## LDAP configuration ##
-########################
-
 AUTHENTICATION_BACKENDS = (
-    'django_auth_ldap.backend.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
-#AUTH_LDAP_SERVER_URI = "ldap://ldap.amossys.fr"
-AUTH_LDAP_SERVER_URI = "ldap://127.0.0.1"
-
-import ldap
-from django_auth_ldap.config import LDAPSearch
-
-AUTH_LDAP_BIND_DN = "" # ex : "cn=django-agent,dc=example,dc=com"
-AUTH_LDAP_BIND_PASSWORD = ""
-AUTH_LDAP_USER_SEARCH = LDAPSearch("dc=amo,dc=test,dc=com", ldap.SCOPE_SUBTREE, "(cn=%(user)s)")
-# or perhaps:
-# AUTH_LDAP_USER_DN_TEMPLATE = "cn=%(user)s,dc=amo,dc=test,dc=com"
-
-
-# chiffrer les communications
-# AUTH_LDAP_START_TLS = True
-
-# fait correspondre les champs du ldap avec les champs du User local
-AUTH_LDAP_USER_ATTR_MAP = {"first_name": "givenName", "last_name": "sn", "username": "cn"}
-# idem mais avec des booleens
-# AUTH_LDAP_USER_FLAGS_BY_GROUP = {
-#     "is_active": "cn=active,ou=groups,dc=example,dc=com",
-#     "is_staff": ["cn=staff,ou=groups,dc=example,dc=com",
-#                  "cn=admin,ou=groups,dc=example,dc=com"],
-#     "is_superuser": "cn=superuser,ou=groups,dc=example,dc=com"
-# }
-
-
-AUTH_LDAP_CONNECTION_OPTIONS = {
-    ldap.OPT_REFERRALS: 0
-}
 import logging
 
 logger = logging.getLogger('django_auth_ldap')
