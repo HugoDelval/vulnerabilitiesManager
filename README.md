@@ -1,14 +1,18 @@
 # vulnerabilitiesManager
 
-## Installation Linux
+## Installation Linux - partie 1 - branche master
 
-	sudo pip install django
-	git clone https://github.com/HugoDelval/vulnerabilitiesManager/tree/master/webSite/vuln
+La branche *master* est la branche qui correspond au développement de l'application, elle est utilisée dans cette 1ère partie pour débugguer plus facilement les éventuels problèmes de déploiements.
+
+	git clone https://github.com/HugoDelval/vulnerabilitiesManager
+
 	cd  vulnerabilitiesManager/webSite/webSite
+
+	git checkout master
+
 	cp databases_example.py databases.py
 
-Modifier le fichier databases.py en fonction de vos paramètres locaux de mysql.
-N'oubliez pas de lancez mysql :
+Lancer mysql :
 
 	sudo service mysql start
 
@@ -16,11 +20,25 @@ Créer une base de données :
 
 	CREATE DATABASE kmbdd;
 
+Modifier le fichier databases.py en fonction de vos paramètres locaux de mysql. NB: Pensez à créer un utilisateur ayant des droits restreints à cette BdD.
 
-	sudo apt-get install python-ldap
-	sudo pip install django-auth-ldap
+Installer les dépendances :
+
+	sudo pip install django
+
 	sudo pip install django-grappelli
+
 	sudo pip install django-extensions
+
+	sudo pip uninstall Pillow
+
+	sudo pip install Pillow
+
+	sudo pip install pyparsing==1.5.7
+
+	sudo pip install pydot
+
+Commande permettant de contruire le shéma de la base de données mysql (dossier racine) :
 
 	python manage.py migrate
 
@@ -28,19 +46,152 @@ Vous pouvez accéder à l'interface admin (pour ajouter des vulnérabilités/rec
 
 	python manage.py createsuperuser
 
-Puis lancez le server :
+Lancer le serveur de développement :
 
 	python manage.py runserver 8081
 
-ouvrez un navigateur et allez à localhost:8081 ou localhost:8081/admin pour l'interface admin
+Ouvrir un navigateur et allez à l'URL http://localhost:8081 ou http://localhost:8081/admin pour l'interface admin
 
 #### Générer une image de votre modèle de données
 
-	sudo pip install pyparsing==1.5.7
-	sudo pip install pydot
-
 	python manage.py graph_models -g -o <NOM>.png <Application à partir de laquelle générer l'image du modèle>
+
 	python manage.py graph_models -g -o diagramme.png vuln
+
+## Installation Linux - partie 2
+
+Si vous êtes arrivés jusqu'ici alors l'application est fonctionnelle sous votre machine. Il ne vous reste plus qu'à la mettre en production. Ceci signifie entre autre :
+
+	- Passer sous la branche de production
+	- Déléguer la gestion du serveur à Apache plutôt qu'au serveur de développement de la section précédente
+	- Activer une connexion HTTPs
+	- Durcir les paramètres de l'application (utilisation de Cookies HTTPOnly, configuration de la clef secrete de Django etc..)
+
+### Branche de production
+
+Passer sous la branche de production du projet KMAmossys :
+
+	git checkout production
+
+Ceci permet de charger les paramètres durcis de Django. Le fichier qui a le plus changé entre la branche **master** et la branche **production** est le fichier **webSite/webSite/settings.py**. Dans ce fichier vous trouverez tous les paramètres de Django. Voici un peu de documentation officielle en cas de problème (ou de curieux) :
+https://docs.djangoproject.com/en/1.8/topics/settings/
+
+*Note:* La documentation Django est très complète et bien expliquée pour des débutants. N'hésitez pas à vous y référer régulièrement.
+
+### Apache et Python
+
+Installer le module python d'Apache :
+
+	sudo apt-get install libapache2-mod-wsgi
+
+Voici la documentation officielle du déploiement sous Apache : https://docs.djangoproject.com/fr/1.8/howto/deployment/wsgi/modwsgi/
+
+Activer le module python Apache :
+
+	sudo a2enmod wsgi
+
+Déclarer l'application Python dans Apache :
+ouvrir le fichier **/etc/apache2/apache2.conf** (avec les droits *root*) et insérer les lignes suivantes à la suite des directives *\<Directory\>\</Directory\>* :
+
+
+	Alias /static/ /home/hdl/KM/vulnerabilitiesManager/webSite/static/
+
+	<Directory /home/hdl/KM/vulnerabilitiesManager/webSite/static>
+	Require all granted
+	</Directory>
+
+
+	WSGIScriptAlias / /home/hdl/KM/vulnerabilitiesManager/webSite/webSite/wsgi.py
+	WSGIPythonPath /home/hdl/KM/vulnerabilitiesManager/webSite/
+
+	<Directory /home/hdl/KM/vulnerabilitiesManager/webSite>
+	<Files wsgi.py>
+	Require all granted
+	</Files>
+	</Directory>
+
+Attention ! Changer le répertoire **/home/hdl/KM/vulnerabilitiesManager** en fonction de votre installation locale !
+
+### Activation du HTTPs
+
+La source utilisée pour l'activation du HTTPs sous apache2 : http://www.it-connect.fr/configurer-le-ssl-avec-apache-2%EF%BB%BF/
+
+L'activation du HTTPs n'est pas spécifique à Django, de nombreuses ressources sont disponibles sur le WEB.
+
+Résumé :
+
+Activer le site SSL ainsi que le module SSL :
+
+	sudo a2enmod ssl
+
+	sudo a2ensite default-ssl
+
+	sudo service apache2 reload
+
+*Optionnel*
+
+Editer le fichier **/etc/apache2/sites-available/default-ssl.conf** (avec les droits admin) :
+
+	SSLCertificateFile /chemin/server.crt # le chemin du certificat que vous avez créé, sinon le chemin vers le certificat généré automatiquemennt à l'installation
+
+	SSLCertificateKeyFile /chemin/server.key # idem, la clef que vous avez créée, ou bien la clef d'apache générée automatiquement
+
+D'autres paramètres que vous pouvez changer dans ce fichier (pour plus de sécurité SSL) :
+
+	SSLProtocol -ALL +TLSv1 +TLSv1.1 +TLSv1.2
+
+	SSLHonorCipherOrder On
+
+	SSLCipherSuite ECDHE-RSA-AES128-SHA256:AES128-GCM-SHA256:HIGH:!MD5:!aNULL:!EDH:!RC4
+
+	SSLCompression off
+
+Relancer apache :
+
+	sudo service apache2 reload
+
+*Fin optionnel*
+
+#### Redirection HTTP - HTTPs :
+
+La redirection se fait déjà au niveau de l'application Django, mais cela ne coûte rien de la faire au niveau d'Apache également :
+
+Editer le fichier **/etc/apache2/sites-available/000-default.conf** et rajouter cette ligne après **\<VirtualHost \*:80\>**:
+
+	Redirect permanent / https://{Inserer ici votre adresse IP}/
+
+### Durcicement des paramètres de sécurité
+
+Nous avons déjà parlé du fichier de configuration Django : **webSite/webSite/settings.py**.
+Ouvrir ce fichier. Changer la ligne suivante :
+
+	with open('/etc/secret_key.txt') as f:
+
+Avec le fichier qui contiendra votre clef privée Django. Ce fichier contient une unique ligne du style :
+
+	kjodsf!:;ç_è986442654/*.CKSQJUBHiusbdkJBIBSGLnSMJSBIGi!:.;PQOKGFM§S.Goisgugs><<qd
+
+Changer également la ligne qui correspond au chemin absolu vers tous les fichiers statiques (css, images, javascript..) :
+
+	STATIC_ROOT = '/home/hdl/KM/vulnerabilitiesManager/webSite/static/'
+
+	ex : STATIC_ROOT = '/home/audit/KM/vulnerabilitiesManager/webSite/static/'
+
+Changer les droits POSIX pour l'upload de fichier :
+
+	sudo chown :www-data webSite/docxImgAnonymisateur/includes/doc_a_anonymiser -R
+
+	sudo chmod 664 webSite/docxImgAnonymisateur/includes/doc_a_anonymiser
+
+	sudo chown :www-data webSite/docxImgAnonymisateur/includes/doc_anonyme -R
+
+	sudo chmod 664 webSite/docxImgAnonymisateur/includes/doc_anonyme
+
+L'installation est presque terminée ! Lisez la partie suivante pour comprendre les bases de Django, nottament la migration de la base de données.
+
+## Découverte de Django
+
+
 
 ## Installation Windows
 
@@ -81,23 +232,23 @@ Site Web : Nouveau site Web
 
 Nom : KMAmossys
 
-Chemin d'accès : le chemin vers un nouveau dossier, ce sera la racine de votre site. Ex: C:\www
+Chemin d'accès : le chemin vers un nouveau dossier, ce sera la racine de votre site. Ex: C:/www
 
 Ouvrir IIS et lancer le site nouvellement créé. Ouvrir IE et aller sur *localhost*
 
-Si tout a bien fonctionné dans C:\www\ il devrait y avoir un fichier nommé deploy_done.py (et non deploy.py, si c'est le cas assurez-vous que vous avez bien accédé le bon site IIS)
+Si tout a bien fonctionné dans C:/www/ il devrait y avoir un fichier nommé deploy_done.py (et non deploy.py, si c'est le cas assurez-vous que vous avez bien accédé le bon site IIS)
 
-Ouvrir C:\www\static\zoo-index.html#existing-django-app
+Ouvrir C:/www/static/zoo-index.html#existing-django-app
 
 Executer les actions spécifiées dans le paragraphe en remplaçant *myproject1* par *webSite* et *settings* par *webSite.settings*
 
-Ajouter C:\Python27\ et C:\Python27\Scripts\ au path
+Ajouter C:/Python27/ et C:/Python27/Scripts/ au path
 
 Ajouter le répertoire virtuel static : clic droit sur le site > ajouter un répertoire virtuel > static, pointe vers le répertoire static du code source téléchargé
 
-Changer STATIC_ROOT dans webSite/settings.py en qqchose du genre *C:\\www\\static*
+Changer STATIC_ROOT dans webSite/settings.py en qqchose du genre *C:/www/static*
 
-Ouvrir une cmd.exe dans le répertoire racine de l'appli (C:\www) :
+Ouvrir une cmd.exe dans le répertoire racine de l'appli (C:/www) :
 
 	pip install django
 
@@ -115,7 +266,7 @@ Ouvrir une cmd.exe dans le répertoire racine de l'appli (C:\www) :
 
 	python manage.py collectstatic
 
-Créer un fichier secret_key.txt accessible par IIS (donc dans C:\\www par exemple) contenant une ligne qui sera une clef pour django (donc il faut qu'elle soit complexe)
+Créer un fichier secret_key.txt accessible par IIS (donc dans C:/www par exemple) contenant une ligne qui sera une clef pour django (donc il faut qu'elle soit complexe)
 
 Modifier la ligne 23 de settings.py pour donner le chemin vers le fichier créé
 
@@ -159,7 +310,7 @@ Authentification Windows > Fournisseurs > Supprimer tout et ne mettre que *Negot
 
 A ce stade l'authentification devrait être opérationnelle. Cependant on veut que toutes les personnes se connectant en remote user aient accès à l'interface admin. Pour ce faire on va modifier le comportement par défaut de django :
 
-Ouvrir le fichier C:\Python27\Lib\site-packages\django\contrib\auth\models.py
+Ouvrir le fichier C:/Python27/Lib/site-packages/django/contrib/auth/models.py
 
 Modifier l'attribut is_superuser de PermissionMixin ligne 308 : changer **default=False** en **default=True**
 
@@ -169,7 +320,7 @@ Ainsi les comptes créés automatiquement lors de la connexion via KERBEROS sero
 
 #### export modèle et base de données
 
-Ouvrir un cmd.exe dans le répertoire C:\www et executer :
+Ouvrir un cmd.exe dans le répertoire C:/www et executer :
 
 	python manage.py migrate
 
