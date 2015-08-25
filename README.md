@@ -61,6 +61,7 @@ Ouvrir un navigateur et allez à l'URL http://localhost:8081 ou http://localhost
 ## Installation Linux - partie 2
 
 Si vous êtes arrivés jusqu'ici alors l'application est fonctionnelle sous votre machine. Il ne vous reste plus qu'à la mettre en production. Ceci signifie entre autre :
+
 	- Passer sous la branche de production
 	- Déléguer la gestion du serveur à Apache plutôt qu'au serveur de développement de la section précédente
 	- Activer une connexion HTTPs
@@ -175,6 +176,22 @@ Changer également la ligne qui correspond au chemin absolu vers tous les fichie
 	STATIC_ROOT = '/home/hdl/KM/vulnerabilitiesManager/webSite/static/'
 
 	ex : STATIC_ROOT = '/home/audit/KM/vulnerabilitiesManager/webSite/static/'
+
+Changer les droits POSIX pour l'upload de fichier :
+
+	sudo chown :www-data webSite/docxImgAnonymisateur/includes/doc_a_anonymiser -R
+
+	sudo chmod 664 webSite/docxImgAnonymisateur/includes/doc_a_anonymiser
+
+	sudo chown :www-data webSite/docxImgAnonymisateur/includes/doc_anonyme -R
+
+	sudo chmod 664 webSite/docxImgAnonymisateur/includes/doc_anonyme
+
+L'installation est presque terminée ! Lisez la partie suivante pour comprendre les bases de Django, nottament la migration de la base de données.
+
+## Découverte de Django
+
+
 
 ## Installation Windows
 
