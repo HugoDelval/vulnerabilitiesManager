@@ -165,7 +165,7 @@ Editer le fichier **/etc/apache2/sites-available/000-default.conf** et rajouter 
 Nous avons déjà parlé du fichier de configuration Django : **webSite/webSite/settings.py**.
 Ouvrir ce fichier. Changer la ligne suivante :
 
-	** with open('/etc/secret_key.txt') as f: **
+	with open('/etc/secret_key.txt') as f:
 
 Avec le fichier qui contiendra votre clef privée Django. Ce fichier contient une unique ligne du style :
 
