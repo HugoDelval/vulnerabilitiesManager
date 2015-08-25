@@ -156,7 +156,7 @@ Relancer apache :
 
 La redirection se fait déjà au niveau de l'application Django, mais cela ne coûte rien de la faire au niveau d'Apache également :
 
-Editer le fichier **/etc/apache2/sites-available/000-default.conf** et rajouter cette ligne après **<VirtualHost *:80>**:
+Editer le fichier **/etc/apache2/sites-available/000-default.conf** et rajouter cette ligne après **\<VirtualHost \*:80\>**:
 
 	Redirect permanent / https://{Inserer ici votre adresse IP}/
 
