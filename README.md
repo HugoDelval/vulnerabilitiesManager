@@ -91,7 +91,7 @@ Activer le module python Apache :
 	sudo a2enmod wsgi
 
 Déclarer l'application Python dans Apache :
-ouvrir le fichier **/etc/apache2/apache2.conf** (avec les droits *root*) et insérer les lignes suivantes à la suite des directives *<Directory></Directory>* :
+ouvrir le fichier **/etc/apache2/apache2.conf** (avec les droits *root*) et insérer les lignes suivantes à la suite des directives *\<Directory\>\</Directory\>* :
 
 
 	Alias /static/ /home/hdl/KM/vulnerabilitiesManager/webSite/static/
