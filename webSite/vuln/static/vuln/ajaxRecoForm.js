@@ -30,7 +30,6 @@ function setupListeners() {
     $('select#themes_choice')
         .select2({
             tags: true,
-            placeholder: 'Choisis tes thèmes de recommandation !',
             width: '100%',
             matcher: function (params, data) {
                 // If there are no search terms, return all of the data
