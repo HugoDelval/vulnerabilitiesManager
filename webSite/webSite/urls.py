@@ -23,10 +23,16 @@ django.setup()
 ## Si vous trouvez un autre moyen plus propre d'eviter cette erreur, n'hesitez pas !
 
 urlpatterns = [
+    # /grappelli/
     url(r'^grappelli/', include('grappelli.urls')),
+    # /user/
     url(r'^user/', include('userManager.urls', namespace='userManager')),
+    # /vuln/
     url(r'^vuln/', include('vuln.urls', namespace='vuln')),
+    # /admin/
     url(r'^admin/', include(admin.site.urls)),
+    # /anonymiser/
     url(r'^anonymiser/', include('docxImgAnonymisateur.urls', namespace='anonymiser')),
+    # /
     url(r'^$', RedirectView.as_view(pattern_name='vuln:index', permanent=True)),
 ]
