@@ -2,11 +2,11 @@
 
 <!-- Left Sidebar Menu -->
 {% block base_left_sidebar_menu %}
-    {% include "LTE/menu.html" with active='index' only %}
+    {% include "webSite/menu.html" with active='index' only %}
 {% endblock %}
 
 {% block base_content_header_breadcrumb %}
-    {% include 'LTE/breadcrumb.html' with current='vuln-detail' prev1Name='vulns' prev1Url='vuln:index' only %}
+    {% include 'webSite/breadcrumb.html' with current='vuln-detail' prev1Name='vulns' prev1Url='vuln:index' only %}
 {% endblock %}
 
 {% block body %}
