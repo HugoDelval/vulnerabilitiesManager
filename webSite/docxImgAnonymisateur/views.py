@@ -53,9 +53,9 @@ def index(request):
     # entier utilisé pour ne pas avoir 2 dossiers du même nom
     global manual_lock
     # le chemin vers le dossier où le fichier à anonymiser sont téléchargés
-    dirty_path = os.path.dirname(__file__) + '/includes/doc_a_anonymiser/'
+    dirty_path = os.path.join(os.path.join(os.path.dirname(__file__), 'includes'), 'doc_a_anonymiser')
     # le chemin vers le dossier où le fichier anonymisé va être construit
-    cleaned_path = os.path.dirname(__file__) + '/includes/doc_anonyme/'
+    cleaned_path = os.path.join(os.path.join(os.path.dirname(__file__), 'includes'), 'doc_anonyme')
     # suppression des fichiers 'temporaires'
     clean(dirty_path)
     clean(cleaned_path)
@@ -64,9 +64,9 @@ def index(request):
         if form.is_valid():
             manual_lock += 1
             # on construit un chemin de fichier unique correspondant au fichier que l'utilisateur nous envoie pour anonymisation
-            dirty_path_file = dirty_path + str(manual_lock) + '.docx'
+            dirty_path_file = os.path.join(dirty_path, str(manual_lock) + '.docx')
             # idem on construit un chemin de fichier unique correspondant au fichier anonyme que l'on va construire
-            filename = cleaned_path + 'anonyme_' + str(manual_lock) + '.docx'
+            filename = os.path.join(cleaned_path, 'anonyme_' + str(manual_lock) + '.docx')
             # le nom tel que le verra l'utilisateur lorsqu'il récupèrera le fichier anonyme
             download_name = 'anonymise.docx'
             # sous la forme {'mot à rechercher': 'mot à substituer'}

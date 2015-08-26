@@ -13,19 +13,23 @@ def decompress(temp_directory, inputfile):
     zfile = zipfile.ZipFile(inputfile)
     archive_list = []
     for name in zfile.namelist():
-        (dirname, filename) = os.path.split(name)
-        dirname = temp_directory + '/' + dirname
-        archive_list.append(dirname + '/' + filename)
+        sous_dossiers_et_fichier = name.split('/')
+        fin_absolute_path = ''
+        for dossier in sous_dossiers_et_fichier:
+            fin_absolute_path = os.path.join(fin_absolute_path, dossier)
+        file_absolute_path = os.path.join(temp_directory, fin_absolute_path)
+        archive_list.append(file_absolute_path)
         zfile.extract(name, temp_directory)
     return archive_list
 
 
 def floute_images(directory, blur_radius):
     for filename in os.listdir(directory):
-        im = Image.open(directory + filename)
+        f = os.path.join(directory, filename)
+        im = Image.open(f)
         myBlur = ImageFilter.GaussianBlur(radius=blur_radius)
         im = im.filter(myBlur)
-        im.save(directory + filename)
+        im.save(f)
 
 
 # TODO: 
@@ -60,19 +64,19 @@ ROLE: ecrit un nouveau docx sous 'outputdirectory' en se basant sur le docx 'inp
 """
 def process(inputfile, outputdirectory, blur_radius=17, hash_find_replace={}):
     # ex : /appli/includes/doc_anonyme/dossier_anonme_1.docx
-    temp_directory = outputdirectory + 'dossier_anonyme_' + inputfile.split('/')[-1]
+    temp_directory = os.path.join(outputdirectory, 'dossier_anonyme_' + os.path.basename(inputfile))
     # ex : /appli/includes/doc_anonyme/anonyme_1.docx
-    document_anonymise = outputdirectory + 'anonyme_' + inputfile.split('/')[-1]
+    document_anonymise = os.path.join(outputdirectory, 'anonyme_' + os.path.basename(inputfile))
     # on decompresse le docx dans un dossier, pour faire les modifs sur les photos tranquilement dans ce dossier
     archive_list = decompress(temp_directory, inputfile)
 
     # maintenant on attaque la modif des images
-    floute_images(temp_directory + '/word/media/', blur_radius)
+    floute_images(os.path.join(os.path.join(temp_directory, 'word'), 'media'), blur_radius)
     # puis les find/replace
     if hash_find_replace:
         # TODO: 
         # cette méthode ne semble pas stable sous windows, à débugger et modifier 
-        replace(temp_directory + '/word/', hash_find_replace)
+        replace(os.path.join(temp_directory, 'word'), hash_find_replace)
 
     # puis on recompresse le tout en un fichier docx
     zout = zipfile.ZipFile(document_anonymise, "w", zipfile.ZIP_DEFLATED)
