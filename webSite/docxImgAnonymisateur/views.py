@@ -21,7 +21,7 @@ def clean(absolute_path):
     while manual_lock != 0:
         pass
     for the_file in os.listdir(absolute_path):
-        if the_file != '.gitignore'
+        if the_file != '.gitignore':
             file_path = os.path.join(absolute_path, the_file)
             try:
                 if os.path.isfile(file_path):
@@ -38,11 +38,12 @@ def get_hash_f_r(posts):
     res = {}
     if posts['texte_final']:
         res[posts['texte_original']] = posts['texte_final']
-    for i in range(0, int(posts['extra_field_count'])):
-        value = posts['extra_texte_final_{index}'.format(index=i)]
-        clef = posts['extra_texte_original_{index}'.format(index=i)]
-        if value and clef:
-            res[clef] = value
+    if posts['extra_field_count']:
+        for i in range(0, int(posts['extra_field_count'])):
+            value = posts['extra_texte_final_{index}'.format(index=i)]
+            clef = posts['extra_texte_original_{index}'.format(index=i)]
+            if value and clef:
+                res[clef] = value
     return res
 
 

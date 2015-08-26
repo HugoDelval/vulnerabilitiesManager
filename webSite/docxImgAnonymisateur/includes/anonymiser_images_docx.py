@@ -38,12 +38,12 @@ def replace(word_directory, hash_find_replace):
     for file in os.listdir(word_directory):
         if file.startswith("header") or file == "document.xml":
             fh, abs_path = mkstemp()
-            file_path = word_directory + file
+            file_path = os.path.join(word_directory, file)
             with open(abs_path, 'w') as new_file:
                 with open(file_path) as old_file:
                     for to_search in hash_find_replace:
                         for line in old_file:
-                            # ça plante souvent ici à cause des encodages.. 
+                            # ça plante souvent ici à cause des encodages, donc je l'ai enlevé de l'affichage (cf template index.html)
                             new_file.write(re.sub(to_search.decode('utf8'),
                                 hash_find_replace[to_search].decode('utf8'),
                                 line, flags=re.IGNORECASE))

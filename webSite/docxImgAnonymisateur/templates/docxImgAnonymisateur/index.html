@@ -53,6 +53,12 @@
                     </div>
                 </div>
 
+                <!--
+####################################################################
+Tout cette partie est chachée car il y a des problèmes d'encodages dans les "find/replace". CF includes/anonymiser_images_docx.py, function replace
+####################################################################
+-->
+<div style="display:none">
                 <h3>Remplacement dans le texte : Attention !</h3>
                 <h5>Le remplacement se fait directement dans le XML du .docx,
                     cela peut donc endommager le .docx si vous utilisez des caractères propres au XML.</h5>
@@ -90,7 +96,6 @@
                     </div>
                         {% endwith %}
                         {% endwith %}
-
                         {% with texte_final='extra_texte_final_'|addstr:i %}
                         {% with f_texte_final=form|keyvalue:texte_final %}
                     <div class="col-sm-6">
@@ -112,8 +117,8 @@
                         Rajoutez une "Recherche"
                     </button>
                 <br>
-                </div><!-- /.col -->
-
+                </div>
+</div>
                 <br>
 
                 <div class="col-xs-6 col-xs-offset-3">
