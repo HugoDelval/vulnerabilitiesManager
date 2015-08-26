@@ -15,7 +15,14 @@ Cette vulnérabilité est considérée en <b>boite
             </li>
         </ul>
     </li>
-<!-- non utilisé pour le moment
+    <li>
+        <h4>Définition détaillée pour le client :</h4>
+        {{ vulnerabilite.definition|linebreaks }}
+    </li>
+    <li>
+        <h4>Description détaillée pour le client :</h4>
+        {{ vulnerabilite.description|linebreaks }}
+    </li>
     <li>
         <h4>Difficulté d'exploitation :</h4>
         <ul>
@@ -43,10 +50,5 @@ Cette vulnérabilité est considérée en <b>boite
                 Auditeurs impliqués : {{ vulnerabilite.rapport_associe.auditeurs_impliques }}
             </li>
         </ul>
-    </li>
--->
-    <li>
-        <h4>Description détaillée pour le client :</h4>
-        {{ vulnerabilite.description|linebreaks }}
     </li>
 </ul>
