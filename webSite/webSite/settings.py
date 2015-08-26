@@ -40,8 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'userManager',
     'vuln',
-    'docxImgAnonymisateur',
-    'LTE',
+    'webSite',
     'django_extensions',
 )
 
