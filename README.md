@@ -12,4 +12,4 @@ Pour déployer le projet sous Windows lire le fichier : **INSTALL_WINDOWS**
 
 Pour contribuer au développement de l'application et/ou en apprendre plus sur Django, lire les fichiers : **TUTO_DEVELOPPEMENT.md** ainsi que le cahier des charges (non versionné au format .pdf)
 
-Merci à https://github.com/SpamNocturne/SpamWeb pour l'inspiration.
+Merci à https://github.com/SpamNocturne/SpamWeb pour le design.
