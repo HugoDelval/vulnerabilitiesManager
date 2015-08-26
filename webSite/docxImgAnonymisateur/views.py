@@ -21,14 +21,15 @@ def clean(absolute_path):
     while manual_lock != 0:
         pass
     for the_file in os.listdir(absolute_path):
-        file_path = os.path.join(absolute_path, the_file)
-        try:
-            if os.path.isfile(file_path):
-                os.unlink(file_path)
-            elif os.path.isdir(file_path):
-                shutil.rmtree(file_path)
-        except Exception, e:
-            print e
+        if the_file != '.gitignore'
+            file_path = os.path.join(absolute_path, the_file)
+            try:
+                if os.path.isfile(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+            except Exception, e:
+                print e
 
 
 # récupère les demandes de find/replace de l'utilisateur
