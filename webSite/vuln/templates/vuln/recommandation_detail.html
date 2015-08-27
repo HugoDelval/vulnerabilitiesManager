@@ -18,7 +18,10 @@
     {% if recommandation.vuln %}
         {% include "vuln/vuln_display.html" with vulnerabilite=recommandation.vuln %}
     {% else %}
-        Aucune vulnérabilité associée à cette recommandation.
-        <a href="{% url 'admin:vuln_recommandation_change' recommandation.id %}">Ajoutez-en !</a>
+        Aucune vulnérabilité associée à cette recommandation. <br><br>
+        <a href="{% url 'admin:vuln_recommandation_change' recommandation.id %}" class="btn btn-success flat">
+            <i class="fa fa-plus"></i>
+            Ajoutez-en !
+        </a>
     {% endif %}
 {% endblock %}

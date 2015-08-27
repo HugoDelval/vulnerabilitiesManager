@@ -18,7 +18,10 @@
             {% include "vuln/reco_display.html" %}
         {% endfor %}
     {% else %}
-        Aucune recommandation disponnible pour cette vulnérabilité.
-        <a href="{% url 'admin:vuln_recommandation_add' %}">Ajoutez-en !</a>
+        Aucune recommandation disponnible pour cette vulnérabilité.<br><br>
+        <a href="{% url 'admin:vuln_recommandation_add' %}" class="btn btn-primary flat">
+            <i class="fa fa-plus"></i>
+            Ajoutez-en !
+        </a>
     {% endif %}
 {% endblock %}
