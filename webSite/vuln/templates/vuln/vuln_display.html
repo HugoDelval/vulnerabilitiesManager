@@ -1,54 +1,77 @@
-<h4>
-    <a href="{% url 'admin:vuln_vulnerabilite_change' vulnerabilite.id %}"><i class="fa fa-arrow-right"></i>Modifiez cette Vulnérabilité.</a>
-</h4>
-Cette vulnérabilité est considérée en <b>boite
-{% if vulnerabilite.estBoiteNoire %} noire. {% else %} grise.{% endif %}</b>
-<ul>
-    <li>
-        <h4>Impact :</h4>
+<div class="box">
+
+    {% if vulnerabilite.mots_clefs.all %}
+    <div class="box-header">
+        <h3>
+            Cette vulnérabilité concerne : 
+        </h3>
+        <h4 style="margin-bottom:0px;">
+            {% for mot_clef in vulnerabilite.mots_clefs.all %}
+            <i>{{ mot_clef.nom }}</i> {% if not forloop.last %} ; {% endif %}
+            {% endfor %}
+        </h4>
+    </div>
+    {% endif %}
+
+    <div class="box-body">
+        Cette vulnérabilité est considérée en <b>boite
+        {{ vulnerabilite.estBoiteNoire|yesno:"noire.,grise." }}</b>
         <ul>
             <li>
-                Niveau : {{ vulnerabilite.impact.niveau }}
+                <h4>Impact :</h4>
+                <ul>
+                    <li>
+                        Niveau : {{ vulnerabilite.impact.niveau }}
+                    </li>
+                    <li>
+                        Description : {{ vulnerabilite.impact.description }}
+                    </li>
+                </ul>
             </li>
             <li>
-                Description : {{ vulnerabilite.impact.description }}
+                <h4>Définition détaillée pour le client :</h4>
+                {{ vulnerabilite.definition|linebreaks }}
+            </li>
+            <li>
+                <h4>Description détaillée pour le client :</h4>
+                {{ vulnerabilite.description|linebreaks }}
+            </li>
+            <li>
+                <h4>Difficulté d'exploitation :</h4>
+                <ul>
+                    <li>
+                        Niveau : {{ vulnerabilite.difficulte_exploit.niveau }}
+                    </li>
+                    <li>
+                        Description acte involontaire : {{ vulnerabilite.difficulte_exploit.description_acte_involontaire }}
+                    </li>
+                    <li>
+                        Description acte volontaire : {{ vulnerabilite.difficulte_exploit.description_acte_volontaire }}
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <h4>Rapport associé :</h4>
+                <ul>
+                    <li>
+                        Nom : {{ vulnerabilite.rapport_associe.nom_rapport }}
+                    </li>
+                    <li>
+                        Date : {{ vulnerabilite.rapport_associe.date_rapport }}
+                    </li>
+                    <li>
+                        Auditeurs impliqués : {{ vulnerabilite.rapport_associe.auditeurs_impliques }}
+                    </li>
+                </ul>
             </li>
         </ul>
-    </li>
-    <li>
-        <h4>Définition détaillée pour le client :</h4>
-        {{ vulnerabilite.definition|linebreaks }}
-    </li>
-    <li>
-        <h4>Description détaillée pour le client :</h4>
-        {{ vulnerabilite.description|linebreaks }}
-    </li>
-    <li>
-        <h4>Difficulté d'exploitation :</h4>
-        <ul>
-            <li>
-                Niveau : {{ vulnerabilite.difficulte_exploit.niveau }}
-            </li>
-            <li>
-                Description acte involontaire : {{ vulnerabilite.difficulte_exploit.description_acte_involontaire }}
-            </li>
-            <li>
-                Description acte volontaire : {{ vulnerabilite.difficulte_exploit.description_acte_volontaire }}
-            </li>
-        </ul>
-    </li>
-    <li>
-        <h4>Rapport associé :</h4>
-        <ul>
-            <li>
-                Nom : {{ vulnerabilite.rapport_associe.nom_rapport }}
-            </li>
-            <li>
-                Date : {{ vulnerabilite.rapport_associe.date_rapport }}
-            </li>
-            <li>
-                Auditeurs impliqués : {{ vulnerabilite.rapport_associe.auditeurs_impliques }}
-            </li>
-        </ul>
-    </li>
-</ul>
+
+        <hr>
+
+        <a href="{% url 'admin:vuln_vulnerabilite_change' vulnerabilite.id %}" class="btn btn-danger btn-flat" style="display:block;">
+            <i class="fa fa-arrow-right"></i>
+            Modifiez cette Vulnérabilité.
+        </a>
+
+    </div>
+</div>
