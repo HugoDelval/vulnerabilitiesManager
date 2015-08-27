@@ -1,6 +1,8 @@
 {% extends "vuln/layout.html" %}
 {% load staticfiles %}
 
+{% block body_skin_class %}skin-green{% endblock %}
+
 <!-- Left Sidebar Menu -->
 {% block base_left_sidebar_menu %}
     {% include "webSite/menu.html" with active='recos' only %}
