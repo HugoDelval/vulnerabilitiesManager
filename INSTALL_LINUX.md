@@ -24,19 +24,13 @@ Modifier le fichier databases.py en fonction de vos paramètres locaux de mysql.
 
 Installer les dépendances :
 
+	sudo apt-get install python-mysqldb
+
 	sudo pip install django
 
 	sudo pip install django-grappelli
 
 	sudo pip install django-extensions
-
-	sudo pip uninstall Pillow
-
-	sudo pip install Pillow
-
-	sudo pip install pyparsing==1.5.7
-
-	sudo pip install pydot
 
 Commande permettant de contruire le shéma de la base de données mysql (dossier racine : 1er dossier *webSite*) :
 
@@ -56,10 +50,10 @@ Ouvrir un navigateur et allez à l'URL http://localhost:8081 ou http://localhost
 
 Si vous êtes arrivés jusqu'ici alors l'application est fonctionnelle sous votre machine. Il ne vous reste plus qu'à la mettre en production. Ceci signifie entre autre :
 
-	** Passer sous la branche de production
-	** Déléguer la gestion du serveur à Apache plutôt qu'au serveur de développement de la section précédente
-	** Activer une connexion HTTPs
-	** Durcir les paramètres de l'application (utilisation de Cookies HTTPOnly, configuration de la clef secrete de Django etc..)
+ * Passer sous la branche de production
+ * Déléguer la gestion du serveur à Apache plutôt qu'au serveur de développement de la section précédente
+ * Activer une connexion HTTPs
+ * Durcir les paramètres de l'application (utilisation de Cookies HTTPOnly, configuration de la clef secrete de Django etc..)
 
 ### Branche de production
 
@@ -120,7 +114,7 @@ Activer le site SSL ainsi que le module SSL :
 
 	sudo a2enmod ssl
 
-	sudo a2ensite default-ssl
+	sudo a2ensite default-ssl.conf
 
 	sudo service apache2 reload
 
@@ -167,21 +161,17 @@ Ouvrir ce fichier. Changer la ligne suivante :...
 
 	kjodsf!:;ç_è986442654/**.CKSQJUBHiusbdkJBIBSGLnSMJSBIGi!:.;PQOKGFM§S.Goisgugs><<qd
 
+Attention la clef secrete doit être accessible par l'utilisateur apache (*www-data*). Elle doit avoir les droit en lecture **UNIQUEMENT** pour cet utilisateur.
+	
+	chmod 400 secret_key.txt
+
+	chmown www-data:www-data secret_key.txt
+
 Changer également la ligne qui correspond au chemin absolu vers tous les fichiers statiques (css, images, javascript..) :
 
 	STATIC_ROOT = '/home/hdl/KM/vulnerabilitiesManager/webSite/static/'
 
 	ex : STATIC_ROOT = '/home/audit/KM/vulnerabilitiesManager/webSite/static/'
-
-Changer les droits POSIX pour l'upload de fichier :
-
-	sudo chown :www-data webSite/docxImgAnonymisateur/includes/doc_a_anonymiser -R
-
-	sudo chmod 775 webSite/docxImgAnonymisateur/includes/doc_a_anonymiser
-
-	sudo chown :www-data webSite/docxImgAnonymisateur/includes/doc_anonyme -R
-
-	sudo chmod 775 webSite/docxImgAnonymisateur/includes/doc_anonyme
 
 L'installation est presque terminée ! Lisez la partie suivante pour comprendre les bases de Django, nottament la migration de la base de données.
 
@@ -209,7 +199,13 @@ Ceci éxécute les requêtes SQL générées avec *makemigrations*, et va donc c
 
 **Procédure de récupération de la base de données depuis un backup :**
 
+Créer un base de données **vide** :
+
+	mysql> DROP DATABASE kmbdd;
+
 	mysql> CREATE DATABASE kmbdd;
+
+Charger la sauvegarde dans mysql et prévenir Django des changements :
 
 	$> mysql -uamossys -pMOTDEPASSE -Dkmbdd < FICHIER_BACKUP.sql
 

@@ -136,9 +136,19 @@ Et voilà ! Nous avons ajouté un champ en quelques clics. Bon développement.
 
 ### Générer une image de votre modèle de données
 
+Installer les dépendances :
+
+	sudo pip install pyparsing==1.5.7
+
+	sudo pip install pydot
+
+Lancer cette commande (en l'adaptant) :
+
 	python manage.py graph_models -g -o <NOM>.png <Application à partir de laquelle générer l'image du modèle>
 
-	ex : python manage.py graph_models -g -o diagramme.png vuln
+Par exemple :
+
+	python manage.py graph_models -g -o diagramme.png vuln
 
 ### Création d'une nouvelle application
 
